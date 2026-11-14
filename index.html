@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chris Starr — Security for agents that act</title>
+<meta name="description" content="Rules and a podcast on running AI agents that act: merge code, sign in, spend money. By Chris Starr.">
+<meta property="og:title" content="Chris Starr — Security for agents that act">
+<meta property="og:description" content="Rules and a podcast on running AI agents that act: merge code, sign in, spend money. By Chris Starr.">
+<meta name="twitter:title" content="Chris Starr — Security for agents that act">
+<meta name="twitter:description" content="Rules and a podcast on running AI agents that act: merge code, sign in, spend money. By Chris Starr.">
+<link rel="canonical" href="https://chrisstarr.ai/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,300&display=swap" rel="stylesheet">
+<script>try{var th=localStorage.getItem('theme');if(th==='light'||th==='dark')document.documentElement.setAttribute('data-theme',th)}catch(e){}</script>
+<style>
+:root{
+  --bg:#fff;--heading:#0a2540;--text:#1a1f36;--secondary:#3c4257;--muted:#697386;--faint:#8792a2;
+  --border:#e3e8ee;--line:#eceff3;--focus:rgba(10,37,64,.32);
+  --card:#fff;--glass:rgba(255,255,255,.72);--rim:rgba(255,255,255,.9);--on-ink:#fff;
+  --lift:0 1px 2px rgba(10,37,64,.05),0 2px 8px rgba(10,37,64,.06);
+  --lift2:0 2px 4px rgba(10,37,64,.06),0 12px 32px rgba(10,37,64,.09);
+  --live:hsl(47 95% 49%);--done:hsl(125 49% 43%);--stop:hsl(2 63% 54%);
+  --dot:10,37,64;--lit:244,192,6;
+  --serif:"Newsreader","Iowan Old Style",Georgia,serif;
+  --sans:"Geist","Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --pad:clamp(20px,5vw,72px);--ease:cubic-bezier(.22,1,.36,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a28;--heading:#f1f4f8;--text:#e3e8ee;--secondary:#c3cad6;--muted:#9aa4b4;--faint:#7b8698;
+  --border:#2b3447;--line:#232b3c;--focus:rgba(226,232,240,.4);
+  --card:#1c2334;--glass:rgba(28,35,52,.72);--rim:rgba(255,255,255,.06);--on-ink:#0a2540;
+  --lift:0 0 0 1px rgba(255,255,255,.07),0 2px 10px rgba(0,0,0,.3);
+  --lift2:0 0 0 1px rgba(255,255,255,.08),0 14px 36px rgba(0,0,0,.4);
+  --dot:214,223,236;
+}}
+:root[data-theme="dark"]{
+  --bg:#141a28;--heading:#f1f4f8;--text:#e3e8ee;--secondary:#c3cad6;--muted:#9aa4b4;--faint:#7b8698;
+  --border:#2b3447;--line:#232b3c;--focus:rgba(226,232,240,.4);
+  --card:#1c2334;--glass:rgba(28,35,52,.72);--rim:rgba(255,255,255,.06);--on-ink:#0a2540;
+  --lift:0 0 0 1px rgba(255,255,255,.07),0 2px 10px rgba(0,0,0,.3);
+  --lift2:0 0 0 1px rgba(255,255,255,.08),0 14px 36px rgba(0,0,0,.4);
+  --dot:214,223,236;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--text);color-scheme:light dark;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{font:400 14px/20px var(--sans);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:where(a,button):focus-visible{outline:1.5px solid var(--focus);outline-offset:2px}
+input:focus{outline:none}
+::selection{background:rgba(var(--dot),.14)}
+#field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* the top row */
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px var(--pad) 22px;font:500 13px/18px var(--sans)}
+.nav::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--bg);-webkit-mask-image:linear-gradient(#000 35%,transparent);mask-image:linear-gradient(#000 35%,transparent)}
+.me{color:var(--heading)}
+.links{display:flex;align-items:center;gap:clamp(14px,2.4vw,26px);color:var(--muted)}
+.links button{transition:color .12s}
+@media (hover:hover){.links button:hover{color:var(--heading)}}
+.theme{display:grid;place-items:center;width:28px;height:28px;margin:0 -6px;border-radius:50%;color:var(--faint)}
+.theme svg{grid-area:1/1}
+.theme .sun{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .theme .sun{display:block}:root:not([data-theme="light"]) .theme .moon{display:none}}
+:root[data-theme="dark"] .theme .sun{display:block}
+:root[data-theme="dark"] .theme .moon{display:none}
+@media (max-width:379px){.wide{display:none}}
+
+/* pills and the one ink action */
+.pill{display:inline-flex;align-items:center;height:32px;padding:0 13px;border-radius:999px;background:var(--card);box-shadow:0 0 0 1px var(--border);color:var(--muted);font:400 12.5px/18px var(--sans);white-space:nowrap;transition:color .12s,box-shadow .12s}
+a.pill:hover{color:var(--heading);box-shadow:0 0 0 1px var(--focus)}
+.ink{display:inline-flex;align-items:center;height:34px;padding:0 16px;border-radius:999px;background:var(--heading);color:var(--on-ink);font:500 13px/18px var(--sans);white-space:nowrap}
+
+/* scenes */
+section{position:relative;z-index:1;scroll-margin-top:0}
+.scene{min-height:100vh;min-height:100dvh;display:grid;align-items:center;align-content:center;padding:88px var(--pad) 128px}
+.fig{width:100%}
+.big{font:500 clamp(32px,5vw,68px)/1.04 var(--sans);letter-spacing:-.035em;color:var(--heading);text-wrap:balance}
+.label{font:600 11px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+
+/* 1 · hero */
+.hero{justify-items:center;text-align:center;gap:clamp(28px,5.5vh,60px)}
+h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;letter-spacing:-.022em;color:var(--heading);text-wrap:balance;max-width:11em}
+.session{width:min(540px,100%);background:var(--card);border-radius:12px;box-shadow:var(--lift2);text-align:left}
+.live{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);color:var(--secondary);font:400 13px/18px var(--sans)}
+.dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--live);animation:breath 2.4s ease-in-out infinite}
+@keyframes breath{0%,100%{box-shadow:0 0 0 0 rgba(var(--lit),.5)}60%{box-shadow:0 0 0 6px rgba(var(--lit),0)}}
+#step{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.count{flex:none;color:var(--faint);font:400 12px/18px var(--sans);white-space:nowrap}
+.count b{font:500 12px/18px var(--mono);color:var(--muted)}
+.ask{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;padding:14px 16px}
+.ask p{min-width:0;color:var(--secondary);font:400 14px/20px var(--sans)}
+.ask p b{font-weight:500;color:var(--heading)}
+.ask p span{color:var(--faint)}
+.ask.idle p{color:var(--faint)}
+.acts{flex:none;display:flex;align-items:center;gap:16px}
+.ask:not(.pending) .acts{visibility:hidden}
+.deny{color:var(--muted);font:500 13px/18px var(--sans);transition:color .12s}
+.deny:hover{color:var(--heading)}
+.mark{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:9px;vertical-align:1px}
+
+/* 2 · one agent */
+.duo{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px)}
+.duo .fig{height:min(62vh,560px)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(20px,3.4vh,32px)}
+.note{margin-top:16px;color:var(--muted);font:400 15px/22px var(--sans)}
+
+/* 3 · the rules, pinned */
+.pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:center;gap:clamp(24px,5vw,80px);padding:88px var(--pad) 128px}
+.pin .fig{height:min(64vh,600px)}
+.rulecard{background:var(--card);border-radius:12px;box-shadow:var(--lift2);padding:clamp(22px,3vw,40px)}
+.stack{display:grid;list-style:none;gap:28px}
+.rule .meta{display:flex;gap:10px;margin-bottom:14px;color:var(--faint);font:400 12.5px/18px var(--sans)}
+.rule .meta b{font:500 12.5px/18px var(--mono);color:var(--muted)}
+.rule h3{font:500 clamp(26px,3.5vw,48px)/1.08 var(--sans);letter-spacing:-.032em;color:var(--heading);text-wrap:balance}
+.ticks{display:flex;gap:5px;margin-top:clamp(22px,3.4vh,38px)}
+.ticks button{flex:1;height:16px;position:relative}
+.ticks button::after{content:"";position:absolute;left:0;right:0;top:7px;height:2px;border-radius:2px;background:var(--border);transition:background .2s}
+.ticks button.on::after{background:var(--heading)}
+.js .rules{height:500vh}
+.js .pin{position:sticky;top:0;height:100vh;height:100dvh}
+.js .stack{gap:0}
+.js .rule{grid-area:1/1;opacity:0;transform:translateY(8px);transition:opacity .36s var(--ease),transform .36s var(--ease)}
+.js .rule.on{opacity:1;transform:none}
+
+/* 4 · the podcast */
+.pod .fig{height:clamp(110px,22vh,220px);margin:clamp(26px,5vh,56px) 0}
+.pod .big{max-width:13em}
+.pod .ink{margin-left:6px}
+
+/* 5 · say hi */
+.end{justify-items:center;gap:20px;text-align:center}
+.composer{display:flex;align-items:center;gap:8px;width:min(560px,100%);height:54px;padding:0 8px 0 20px;border-radius:27px;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px var(--rim),0 0 0 1px var(--border),var(--lift2)}
+.composer input{flex:1;min-width:0;background:none;border:0;color:var(--text);font:400 16px/22px var(--sans)}
+.composer input::placeholder{color:var(--faint)}
+.send{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--heading);color:var(--on-ink)}
+.end .row{justify-content:center}
+.foot{margin-top:clamp(28px,9vh,88px);color:var(--faint);font:400 12px/18px var(--sans)}
+
+@media (max-width:760px){
+  .duo{grid-template-columns:1fr}
+  .duo .fig{height:36vh;order:-1}
+  .pin{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;align-items:stretch;padding-top:72px}
+  .pin .fig{height:auto;min-height:160px}
+}
+
+/* motion: enter is 8px and a fade, nothing bounces */
+.rise{animation:rise .7s var(--ease) both}
+.d1{animation-delay:.12s}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.js .rv{opacity:0;transform:translateY(8px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .rise,.dot{animation:none}
+  .js .rv{opacity:1;transform:none}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+<canvas id="field" aria-hidden="true"></canvas>
+
+<nav class="nav">
+  <span class="me">Chris Starr</span>
+  <span class="links">
+    <button type="button" data-to="rules">Rules</button>
+    <button type="button" data-to="podcast">Podcast</button>
+    <button type="button" class="theme" id="theme" aria-label="Switch theme"><svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/></svg></button>
+    <a class="pill" href="https://x.com/chrisstarrai" target="_blank" rel="noopener">Follow<span class="wide">&nbsp;on X</span></a>
+  </span>
+</nav>
+
+<section class="scene hero" id="top" data-fig="flow">
+  <h1 class="rise" data-rock>Security for agents that act.</h1>
+  <div class="session rise d1" data-rock>
+    <p class="live"><i class="dot"></i><span id="step">Reading the diff…</span><span class="count"><b id="ran">0</b> ran · <b id="waited">0</b> waited</span></p>
+    <div class="ask pending" id="ask">
+      <p id="line">Your agent wants to <b>pay $420</b></p>
+      <span class="acts"><button type="button" class="deny" id="deny">Deny</button><button type="button" class="ink" id="go">Approve</button></span>
+    </div>
+  </div>
+</section>
+
+<section class="scene duo" id="agent">
+  <div class="rv">
+    <p class="big">One agent.<br>A whole company.</p>
+    <p class="pills"><span class="pill">merges code</span><span class="pill">signs in</span><span class="pill">spends money</span></p>
+    <p class="note">I built what makes that safe.</p>
+  </div>
+  <div class="fig" data-fig="orb" role="img" aria-label="A slowly turning sphere of points: one agent."></div>
+</section>
+
+<section class="rules" id="rules">
+  <div class="pin">
+    <div class="fig" data-fig="num" aria-hidden="true"></div>
+    <div class="rulecard">
+      <p class="label">Rules for agents that act</p>
+      <ol class="stack">
+        <li class="rule on"><p class="meta"><b>01 / 10</b><span>Secrets</span></p><h3>The agent never sees your passwords.</h3></li>
+        <li class="rule"><p class="meta"><b>02 / 10</b><span>Secrets</span></p><h3>Machines hold no tokens.</h3></li>
+        <li class="rule"><p class="meta"><b>03 / 10</b><span>Approval</span></p><h3>Pause for what matters. Run everything else.</h3></li>
+        <li class="rule"><p class="meta"><b>04 / 10</b><span>Proof</span></p><h3>Merged isn’t live.</h3></li>
+        <li class="rule"><p class="meta"><b>05 / 10</b><span>Briefs</span></p><h3>Don’t rewrite the ask.</h3></li>
+        <li class="rule"><p class="meta"><b>06 / 10</b><span>Loops</span></p><h3>Count progress, not tries.</h3></li>
+        <li class="rule"><p class="meta"><b>07 / 10</b><span>Proof</span></p><h3>An agent that never looks ships glitches.</h3></li>
+        <li class="rule"><p class="meta"><b>08 / 10</b><span>Consent</span></p><h3>Ask before an agent acts as someone else.</h3></li>
+        <li class="rule"><p class="meta"><b>09 / 10</b><span>Proof</span></p><h3>Say whether the tests ran. At the top.</h3></li>
+        <li class="rule"><p class="meta"><b>10 / 10</b><span>Durability</span></p><h3>Work survives a machine dying.</h3></li>
+      </ol>
+      <div class="ticks" id="ticks"></div>
+    </div>
+  </div>
+</section>
+
+<section class="scene pod" id="podcast">
+  <div class="rv">
+    <p class="label">The podcast</p>
+    <p class="big">What did your agent do that it shouldn’t have?</p>
+  </div>
+  <div class="fig" data-fig="wave" aria-hidden="true"></div>
+  <p class="row rv"><span class="pill">In person</span><span class="pill">Bay Area</span><span class="pill">30 minutes</span><a class="ink" href="mailto:chris@chrisstarr.ai?subject=Podcast" target="_blank" rel="noopener">Be a guest</a></p>
+</section>
+
+<section class="scene end" id="hi" data-fig="flow">
+  <div class="composer rv" data-rock>
+    <input id="msg" type="text" placeholder="Tell me what your agent did…" autocomplete="off" aria-label="Your message">
+    <a class="send" id="send" href="mailto:chris@chrisstarr.ai" target="_blank" rel="noopener" aria-label="Send as an email"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></a>
+  </div>
+  <p class="row rv">
+    <a class="pill" href="https://x.com/chrisstarrai" target="_blank" rel="noopener">X</a>
+    <a class="pill" href="https://github.com/chrisstarrai" target="_blank" rel="noopener">GitHub</a>
+    <a class="pill" href="mailto:chris@chrisstarr.ai" target="_blank" rel="noopener">Email</a>
+  </p>
+  <p class="foot">© 2026 Chris Starr · Built by my agent. Approved by me.</p>
+</section>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  root.classList.add('js');
+  const $ = (s, e = document) => e.querySelector(s);
+  const $$ = (s, e = document) => Array.from(e.querySelectorAll(s));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rnd = Math.random;
+
+  /* the frame can't navigate itself, so jumps scroll by hand */
+  $$('[data-to]').forEach((b) => b.addEventListener('click', () => {
+    const el = $('#' + b.dataset.to);
+    if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }));
+
+  /* reveals */
+  const rvs = $$('.rv');
+  if (reduce || !window.IntersectionObserver) rvs.forEach((e) => e.classList.add('in'));
+  else {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.15 });
+    rvs.forEach((e) => io.observe(e));
+  }
+
+  /* hero: a session that runs on its own and waits for a yes */
+  const STEPS = ['Reading the diff…', 'Running the tests…', 'Searching the code…', 'Taking a screenshot…', 'Opening a pull request…', 'Checking the build…', 'Writing the page…'];
+  const ASKS = ['pay $420', 'merge the pull request', 'send the email', 'delete the branch', 'sign in to GitHub', 'deploy to production'];
+  const stepEl = $('#step'), ranEl = $('#ran'), waitedEl = $('#waited'), ask = $('#ask'), line = $('#line');
+  let ran = 0, waited = 0, pending = false, si = 0, ai = 0, burst = 0;
+  function setAsk() {
+    pending = true; waited++; waitedEl.textContent = waited;
+    ask.className = 'ask pending';
+    line.innerHTML = 'Your agent wants to <b>' + ASKS[ai % ASKS.length] + '</b>';
+  }
+  function settle(ok) {
+    if (!pending) return;
+    pending = false; burst = ok ? 1 : -1;
+    ask.className = 'ask';
+    line.innerHTML = '<i class="mark" style="background:var(--' + (ok ? 'done' : 'stop') + ')"></i>' + (ok ? 'Done' : 'Stopped') + ' <span>· ' + ASKS[ai % ASKS.length] + '</span>';
+    ai++;
+    setTimeout(() => { if (!pending) { ask.className = 'ask idle'; line.textContent = 'Nothing needs you'; } }, 1500);
+    setTimeout(setAsk, 3600);
+  }
+  $('#go').addEventListener('click', () => settle(true));
+  $('#deny').addEventListener('click', () => settle(false));
+  setAsk();
+  if (!reduce) setInterval(() => {
+    if (document.hidden) return;
+    si = (si + 1) % STEPS.length; stepEl.textContent = STEPS[si];
+    ran += 1 + (rnd() * 3 | 0); ranEl.textContent = ran;
+  }, 1500);
+
+  /* rules: scroll picks the rule, the field draws its number */
+  const rulesEl = $('#rules'), ruleEls = $$('.rule'), ticks = $('#ticks');
+  let ri = -1;
+  const tickEls = ruleEls.map((_, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.setAttribute('aria-label', 'Rule ' + (i + 1));
+    b.addEventListener('click', () => {
+      const r = rulesEl.getBoundingClientRect();
+      scrollTo({ top: scrollY + r.top + (i + 0.5) / ruleEls.length * (r.height - innerHeight), behavior: reduce ? 'auto' : 'smooth' });
+    });
+    ticks.appendChild(b);
+    return b;
+  });
+  function ruleAt() {
+    const r = rulesEl.getBoundingClientRect();
+    const p = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - innerHeight)));
+    return Math.floor(p * ruleEls.length);
+  }
+  function setRule(i) {
+    if (i === ri) return;
+    ri = i;
+    ruleEls.forEach((r, j) => r.classList.toggle('on', j === i));
+    tickEls.forEach((t, j) => t.classList.toggle('on', j <= i));
+  }
+
+  /* say hi: the box writes the email */
+  const msg = $('#msg'), send = $('#send'), MAIL = 'mailto:chris@chrisstarr.ai';
+  msg.addEventListener('input', () => { const v = msg.value.trim(); send.href = MAIL + (v ? '?body=' + encodeURIComponent(v) : ''); });
+  msg.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); send.click(); } });
+
+  /* the field: one set of points that is a stream, a sphere, a number, a voice */
+  const cv = $('#field'), g = cv.getContext('2d');
+  const figs = $$('[data-fig]');
+  figs.forEach((el) => { el._rocks = $$('[data-rock]', el); });
+  const glyphs = new Map();
+  let W = 0, H = 0, N = 0, NS = 0, P = [], sphere = [], ink = '10,37,64', lit = '244,192,6';
+  let mx = -9999, my = -9999, mode = 'flow', t = 0, last = 0, raf = 0, live = false;
+
+  function colors() {
+    const cs = getComputedStyle(root);
+    ink = cs.getPropertyValue('--dot').trim() || ink;
+    lit = cs.getPropertyValue('--lit').trim() || lit;
+  }
+  function size() {
+    const d = Math.min(2, window.devicePixelRatio || 1);
+    W = innerWidth; H = innerHeight;
+    cv.width = Math.max(1, Math.round(W * d)); cv.height = Math.max(1, Math.round(H * d));
+    g.setTransform(d, 0, 0, d, 0, 0);
+    const n = Math.round(Math.max(520, Math.min(1500, W * 1.1)));
+    if (n !== N) {
+      N = n; NS = Math.round(N * 0.8); P = []; sphere = [];
+      for (let i = 0; i < N; i++) P.push({ x: rnd() * W, y: rnd() * H, vx: 0, vy: 0, s: rnd(), h: 0, ang: 0, z: 1, lit: rnd() < 0.035 });
+      for (let i = 0; i < NS; i++) { const y = 1 - 2 * (i + 0.5) / NS, r = Math.sqrt(1 - y * y), a = i * 2.39996323; sphere.push([Math.cos(a) * r, y, Math.sin(a) * r]); }
+    }
+    glyphs.clear(); colors();
+  }
+  function glyph(txt, w, h) {
+    const key = txt + '|' + Math.round(w) + '|' + Math.round(h);
+    if (glyphs.has(key)) return glyphs.get(key);
+    const c = document.createElement('canvas'), fs = Math.min(h * 0.95, w * 0.62), pts = [];
+    c.width = Math.max(2, Math.ceil(w)); c.height = Math.max(2, Math.ceil(h));
+    const x = c.getContext('2d', { willReadFrequently: true });
+    x.font = '300 ' + fs + 'px Newsreader, Georgia, serif';
+    x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.fillText(txt, c.width / 2, c.height / 2 + fs * 0.03);
+    const d = x.getImageData(0, 0, c.width, c.height).data;
+    for (let yy = 0; yy < c.height; yy += 2) for (let xx = 0; xx < c.width; xx += 2)
+      if (d[(yy * c.width + xx) * 4 + 3] > 120) pts.push([xx - c.width / 2 + rnd() * 2 - 1, yy - c.height / 2 + rnd() * 2 - 1]);
+    pts.sort((a, b) => a[0] - b[0]);
+    glyphs.set(key, pts);
+    return pts;
+  }
+
+  function step(f, snap) {
+    let fig = figs[0], box = null, bd = 1e9;
+    for (const el of figs) {
+      const r = el.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - H / 2);
+      if (d < bd) { bd = d; fig = el; box = r; }
+    }
+    mode = fig.dataset.fig;
+    setRule(ruleAt());
+    const cx = box.left + box.width / 2, cy = box.top + box.height / 2;
+    let rocks = null, sess = null, pts = null, R = 0, bars = 1, bw = 0, ca = 1, sa = 0, cb = 1, sb = 0, held = 0;
+    if (mode === 'flow') {
+      rocks = fig._rocks.map((e) => { const r = e.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2, r.width / 2 + 36, r.height / 2 + 26, e.classList.contains('session')]; });
+      sess = rocks.find((r) => r[4]) || null;
+    } else if (mode === 'orb') {
+      R = Math.min(box.width, box.height) * 0.44;
+      ca = Math.cos(t * 0.22); sa = Math.sin(t * 0.22); cb = Math.cos(0.38); sb = Math.sin(0.38);
+    } else if (mode === 'num') {
+      pts = glyph(String(ri + 1).padStart(2, '0'), box.width, box.height);
+    } else if (mode === 'wave') {
+      bars = Math.max(18, Math.min(64, Math.round(box.width / 18))); bw = box.width / bars;
+    }
+    const HMAX = W < 600 ? 26 : 54, damp = Math.pow(0.82, f);
+    if (sess) for (let i = 0; i < N; i++) held += P[i].h;
+    for (let i = 0; i < N; i++) {
+      const p = P[i];
+      let tx = 0, ty = 0, shaped = false;
+      p.z = 1;
+      if (p.h) {
+        if (!sess || !pending) {
+          p.h = 0;
+          if (burst > 0) { p.vx += 5 + rnd() * 6; p.vy += (rnd() - 0.5) * 4; }
+          else if (burst < 0) { p.vx += (rnd() - 0.5) * 4; p.vy += 2 + rnd() * 4; }
+        } else {
+          p.ang += 0.006 * f;
+          const c = Math.cos(p.ang), n = Math.sin(p.ang);
+          tx = sess[0] + Math.sign(c) * Math.pow(Math.abs(c), 0.35) * (sess[2] - 22); ty = sess[1] + Math.sign(n) * Math.pow(Math.abs(n), 0.35) * (sess[3] - 12); shaped = true;
+        }
+      } else if (mode === 'orb' && i < NS) {
+        const s = sphere[i], x1 = s[0] * ca + s[2] * sa, z1 = s[2] * ca - s[0] * sa, y2 = s[1] * cb - z1 * sb, z2 = s[1] * sb + z1 * cb;
+        tx = cx + x1 * R; ty = cy + y2 * R; p.z = 0.25 + 0.75 * (z2 + 1) / 2; shaped = true;
+      } else if (mode === 'num' && i < NS && pts.length) {
+        const q = pts[(i * pts.length / NS) | 0];
+        tx = cx + q[0]; ty = cy + q[1]; shaped = true;
+      } else if (mode === 'wave' && i < NS) {
+        const b = i % bars, u = ((p.s * 13) % 1) * 2 - 1;
+        const amp = box.height / 2 * (0.12 + 0.88 * Math.abs(Math.sin(b * 0.37 + t * 1.4) * Math.cos(b * 0.11 - t * 0.8)));
+        tx = box.left + (b + 0.5) * bw + (p.s - 0.5) * Math.min(4, bw * 0.25); ty = cy + u * amp; shaped = true;
+      }
+      if (shaped) {
+        if (snap) { p.x = tx; p.y = ty; p.vx = p.vy = 0; }
+        else { p.vx = (p.vx + (tx - p.x) * 0.05 * f) * damp; p.vy = (p.vy + (ty - p.y) * 0.05 * f) * damp; }
+      } else if (!snap) {
+        let fx = (mode === 'flow' ? 1 : 0.45) * (0.5 + p.s * 1.1);
+        let fy = Math.sin(p.x * 0.0045 + t * 0.35 + p.s * 6.28) * 0.32 + Math.sin(p.y * 0.011 - t * 0.2) * 0.16;
+        if (rocks) for (const r of rocks) {
+          const dx = (p.x - r[0]) / r[2], dy = (p.y - r[1]) / r[3], d = dx * dx + dy * dy;
+          if (d < 1.6) {
+            const k = (1.6 - d) / 1.6;
+            fy += (dy < 0 ? -1 : 1) * k * 2.2; fx *= 1 - k * 0.35;
+            if (r[4] && pending && held < HMAX && d < 1.3 && dx < 0 && rnd() < 0.07 * f) { p.h = 1; p.ang = Math.atan2(dy, dx); held++; }
+          }
+        }
+        p.vx += (fx - p.vx) * 0.06 * f; p.vy += (fy - p.vy) * 0.06 * f;
+      }
+      if (!snap) {
+        const px = p.x - mx, py = p.y - my, pd = px * px + py * py;
+        if (pd < 14400 && pd > 0.01) { const q = Math.sqrt(pd), k = (1 - q / 120) * 1.4 * f / q; p.vx += px * k; p.vy += py * k; }
+        p.x += p.vx * f; p.y += p.vy * f;
+      }
+      p.sh = shaped;
+      if (!shaped) {
+        if (p.x > W + 12) { p.x = -12; p.y = rnd() * H; p.vx = 0; }
+        else if (p.x < -40) p.x = W + 12;
+        if (p.y < -30) p.y = H + 20; else if (p.y > H + 30) p.y = -20;
+      }
+    }
+    burst = 0;
+  }
+  function draw() {
+    g.clearRect(0, 0, W, H);
+    const flow = mode === 'flow';
+    for (let i = 0; i < N; i++) {
+      const p = P[i], sh = p.sh;
+      const y = p.h || (p.lit && (flow || (mode === 'orb' && sh)));
+      const a = p.h ? 0.95 : y ? 0.9 * p.z : sh ? (0.36 + p.s * 0.5) * p.z : flow ? 0.14 + p.s * 0.36 : 0.07 + p.s * 0.14;
+      const r = p.h ? 1.9 : sh ? (0.8 + p.s * 0.9) * (0.55 + 0.45 * p.z) * (mode === 'orb' ? 1.4 : 1) : 0.7 + p.s * 0.8;
+      g.fillStyle = g.strokeStyle = 'rgba(' + (y ? lit : ink) + ',' + a.toFixed(3) + ')';
+      if (!sh && Math.abs(p.vx) + Math.abs(p.vy) > 0.5) {
+        g.globalAlpha = 0.5; g.lineWidth = r; g.lineCap = 'round';
+        g.beginPath(); g.moveTo(p.x - p.vx * 6, p.y - p.vy * 6); g.lineTo(p.x, p.y); g.stroke();
+        g.globalAlpha = 1;
+      }
+      g.beginPath(); g.arc(p.x, p.y, r, 0, 6.2832); g.fill();
+    }
+  }
+  function frame(now) {
+    if (!live) return;
+    const dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now; t += dt;
+    step(dt * 60, false); draw();
+    raf = requestAnimationFrame(frame);
+  }
+  function start() { if (live || reduce || document.hidden) return; live = true; last = performance.now(); raf = requestAnimationFrame(frame); }
+  function stop() { live = false; cancelAnimationFrame(raf); }
+  const still = () => { if (!live) { step(1, true); draw(); } };
+
+  size();
+  addEventListener('resize', () => { size(); still(); });
+  addEventListener('scroll', still, { passive: true });
+  addEventListener('pointermove', (e) => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') { mx = my = -9999; } }, { passive: true });
+  document.addEventListener('pointerleave', () => { mx = my = -9999; });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
+  if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { colors(); still(); labelTheme(); });
+  if (document.fonts && document.fonts.load) document.fonts.load('300 120px Newsreader').then(() => { glyphs.clear(); still(); }).catch(() => {});
+
+  /* theme: follows the system until the icon is tapped, then keeps the choice */
+  const themeBtn = $('#theme');
+  function isDark() { const c = root.getAttribute('data-theme'); return c ? c === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
+  function labelTheme() { themeBtn.setAttribute('aria-label', isDark() ? 'Switch to light' : 'Switch to dark'); }
+  themeBtn.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    labelTheme(); colors(); still();
+  });
+  labelTheme();
+
+  still();
+  start();
+})();
+</script>
+</body>
+</html>
