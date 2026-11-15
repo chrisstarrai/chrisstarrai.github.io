@@ -3,164 +3,212 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chris Starr — Security for agents that act</title>
-<meta name="description" content="Rules and a podcast on running AI agents that act: merge code, sign in, spend money. By Chris Starr.">
-<meta property="og:title" content="Chris Starr — Security for agents that act">
-<meta property="og:description" content="Rules and a podcast on running AI agents that act: merge code, sign in, spend money. By Chris Starr.">
-<meta name="twitter:title" content="Chris Starr — Security for agents that act">
-<meta name="twitter:description" content="Rules and a podcast on running AI agents that act: merge code, sign in, spend money. By Chris Starr.">
+<title>Chris Starr — One agent. A whole company.</title>
+<meta name="description" content="Chris Starr builds Arion, the AI agent Arena runs on, and cooks for the people he builds with.">
 <link rel="canonical" href="https://chrisstarr.ai/">
+<meta property="og:title" content="Chris Starr — One agent. A whole company.">
+<meta property="og:description" content="Chris Starr builds Arion, the AI agent Arena runs on, and cooks for the people he builds with.">
+<meta property="og:url" content="https://chrisstarr.ai/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@chrisstarrai">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..600,0..100,0..1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:"iA Quattro";src:url("https://cdn.jsdelivr.net/gh/iaolo/iA-Fonts@master/iA%20Writer%20Quattro/Webfonts/iAWriterQuattroS-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"iA Quattro";src:url("https://cdn.jsdelivr.net/gh/iaolo/iA-Fonts@master/iA%20Writer%20Quattro/Webfonts/iAWriterQuattroS-Bold.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"iA Mono";src:url("https://cdn.jsdelivr.net/gh/iaolo/iA-Fonts@master/iA%20Writer%20Mono/Webfonts/iAWriterMonoS-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+</style>
 <script>try{var th=localStorage.getItem('theme');if(th==='light'||th==='dark')document.documentElement.setAttribute('data-theme',th)}catch(e){}</script>
 <style>
 :root{
-  --bg:#fff;--heading:#0a2540;--text:#1a1f36;--secondary:#3c4257;--muted:#697386;--faint:#8792a2;
-  --border:#e3e8ee;--line:#eceff3;--focus:rgba(10,37,64,.32);
-  --card:#fff;--glass:rgba(255,255,255,.72);--rim:rgba(255,255,255,.9);--on-ink:#fff;
-  --lift:0 1px 2px rgba(10,37,64,.05),0 2px 8px rgba(10,37,64,.06);
-  --lift2:0 2px 4px rgba(10,37,64,.06),0 12px 32px rgba(10,37,64,.09);
-  --live:hsl(47 95% 49%);--done:hsl(125 49% 43%);--stop:hsl(2 63% 54%);
-  --dot:10,37,64;--lit:244,192,6;
-  --serif:"Newsreader","Iowan Old Style",Georgia,serif;
-  --sans:"Geist","Inter",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
-  --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-  --pad:clamp(20px,5vw,72px);--ease:cubic-bezier(.22,1,.36,1);
+  --bg:#F7F6F3;--ink:#111214;--text:#2E3035;--muted:#6B6E76;--faint:#9C9EA4;
+  --line:rgba(17,18,20,.11);--card:#FFFFFF;--on-ink:#F7F6F3;
+  --aub:#5B2B5E;--ember:#C4492C;
+  --lift:0 1px 2px rgba(17,18,20,.05),0 10px 30px rgba(17,18,20,.07);
+  --dot:17,18,20;--lit:196,73,44;
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"iA Quattro",ui-sans-serif,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"iA Mono","IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --pad:clamp(22px,6vw,96px);--ease:cubic-bezier(.22,1,.36,1);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#141a28;--heading:#f1f4f8;--text:#e3e8ee;--secondary:#c3cad6;--muted:#9aa4b4;--faint:#7b8698;
-  --border:#2b3447;--line:#232b3c;--focus:rgba(226,232,240,.4);
-  --card:#1c2334;--glass:rgba(28,35,52,.72);--rim:rgba(255,255,255,.06);--on-ink:#0a2540;
-  --lift:0 0 0 1px rgba(255,255,255,.07),0 2px 10px rgba(0,0,0,.3);
-  --lift2:0 0 0 1px rgba(255,255,255,.08),0 14px 36px rgba(0,0,0,.4);
-  --dot:214,223,236;
+  --bg:#0C0C0D;--ink:#F2F1EE;--text:#D3D3D6;--muted:#9B9CA2;--faint:#6D6E74;
+  --line:rgba(242,241,238,.11);--card:#17171A;--on-ink:#0C0C0D;--aub:#C9A0CC;
+  --lift:0 0 0 1px rgba(242,241,238,.06),0 14px 36px rgba(0,0,0,.5);--dot:242,241,238;
 }}
 :root[data-theme="dark"]{
-  --bg:#141a28;--heading:#f1f4f8;--text:#e3e8ee;--secondary:#c3cad6;--muted:#9aa4b4;--faint:#7b8698;
-  --border:#2b3447;--line:#232b3c;--focus:rgba(226,232,240,.4);
-  --card:#1c2334;--glass:rgba(28,35,52,.72);--rim:rgba(255,255,255,.06);--on-ink:#0a2540;
-  --lift:0 0 0 1px rgba(255,255,255,.07),0 2px 10px rgba(0,0,0,.3);
-  --lift2:0 0 0 1px rgba(255,255,255,.08),0 14px 36px rgba(0,0,0,.4);
-  --dot:214,223,236;
-  color-scheme:dark;
+  --bg:#0C0C0D;--ink:#F2F1EE;--text:#D3D3D6;--muted:#9B9CA2;--faint:#6D6E74;
+  --line:rgba(242,241,238,.11);--card:#17171A;--on-ink:#0C0C0D;--aub:#C9A0CC;
+  --lift:0 0 0 1px rgba(242,241,238,.06),0 14px 36px rgba(0,0,0,.5);--dot:242,241,238;color-scheme:dark;
 }
-:root[data-theme="light"]{color-scheme:light}
+/* evening: the page turns aubergine at the podcast */
+:root.eve{--bg:#3B1A3E;--ink:#F5EFE4;--text:#eadcea;--muted:#c4abc6;--faint:#9a7f9c;--line:rgba(245,239,228,.16);--card:#4a2450;--on-ink:#3B1A3E;--aub:#F0D9F1;--dot:245,239,228}
 *{box-sizing:border-box;margin:0;padding:0}
-html{background:var(--bg);color:var(--text);color-scheme:light dark;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-body{font:400 14px/20px var(--sans);overflow-x:hidden}
+html{background:var(--bg);color:var(--text);transition:background .7s var(--ease),color .7s var(--ease);-webkit-font-smoothing:antialiased}
+body{font:400 16px/1.6 var(--sans);overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-:where(a,button):focus-visible{outline:1.5px solid var(--focus);outline-offset:2px}
-input:focus{outline:none}
-::selection{background:rgba(var(--dot),.14)}
+:where(a,button,summary):focus-visible{outline:1.5px solid var(--aub);outline-offset:3px}
+::selection{background:rgba(91,43,94,.22)}
 #field{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.serif{font-family:var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1}
+.label{font:400 11.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 
-/* the top row */
-.nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px var(--pad) 22px;font:500 13px/18px var(--sans)}
-.nav::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--bg);-webkit-mask-image:linear-gradient(#000 35%,transparent);mask-image:linear-gradient(#000 35%,transparent)}
-.me{color:var(--heading)}
-.links{display:flex;align-items:center;gap:clamp(14px,2.4vw,26px);color:var(--muted)}
-.links button{transition:color .12s}
-@media (hover:hover){.links button:hover{color:var(--heading)}}
-.theme{display:grid;place-items:center;width:28px;height:28px;margin:0 -6px;border-radius:50%;color:var(--faint)}
-.theme svg{grid-area:1/1}
+/* top row */
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:16px var(--pad) 26px;font:400 13px/18px var(--mono);letter-spacing:.02em}
+.nav::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--bg);transition:background .7s var(--ease);-webkit-mask-image:linear-gradient(#000 40%,transparent);mask-image:linear-gradient(#000 40%,transparent)}
+.me{color:var(--ink);font:500 19px/1 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.01em}
+.links{display:flex;align-items:center;gap:clamp(14px,2.4vw,28px);color:var(--muted)}
+.links button,.links a{transition:color .15s}
+@media (hover:hover){.links button:hover,.links a:hover{color:var(--ink)}}
+.ico{display:grid;place-items:center;width:28px;height:28px;margin:0 -6px;color:var(--faint)}
+.ico svg{grid-area:1/1}
 .theme .sun{display:none}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .theme .sun{display:block}:root:not([data-theme="light"]) .theme .moon{display:none}}
-:root[data-theme="dark"] .theme .sun{display:block}
-:root[data-theme="dark"] .theme .moon{display:none}
-@media (max-width:379px){.wide{display:none}}
+:root[data-theme="dark"] .theme .sun{display:block}:root[data-theme="dark"] .theme .moon{display:none}
+@media (max-width:420px){.wide{display:none}}
 
-/* pills and the one ink action */
-.pill{display:inline-flex;align-items:center;height:32px;padding:0 13px;border-radius:999px;background:var(--card);box-shadow:0 0 0 1px var(--border);color:var(--muted);font:400 12.5px/18px var(--sans);white-space:nowrap;transition:color .12s,box-shadow .12s}
-a.pill:hover{color:var(--heading);box-shadow:0 0 0 1px var(--focus)}
-.ink{display:inline-flex;align-items:center;height:34px;padding:0 16px;border-radius:999px;background:var(--heading);color:var(--on-ink);font:500 13px/18px var(--sans);white-space:nowrap}
+section{position:relative;z-index:1}
+.scene{min-height:100vh;min-height:100dvh;display:grid;align-content:center;padding:96px var(--pad) 132px}
 
-/* scenes */
-section{position:relative;z-index:1;scroll-margin-top:0}
-.scene{min-height:100vh;min-height:100dvh;display:grid;align-items:center;align-content:center;padding:88px var(--pad) 128px}
-.fig{width:100%}
-.big{font:500 clamp(32px,5vw,68px)/1.04 var(--sans);letter-spacing:-.035em;color:var(--heading);text-wrap:balance}
-.label{font:600 11px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
-.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+/* 1 hero: the portrait inside the one-agent ball */
+.hero{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,80px)}
+h1{font:340 clamp(52px,7.4vw,118px)/.96 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.035em;color:var(--ink);margin-top:22px}
+h1 em{font-style:italic;font-weight:300;color:var(--aub)}
+.lede{margin-top:clamp(20px,3.4vh,34px);max-width:30em;font-size:clamp(16px,1.35vw,19px);line-height:1.55;color:var(--text)}
+.lede b{font-weight:700;color:var(--ink)}
+.orbfig{position:relative;height:min(68vh,600px);display:grid;place-items:center}
+.portrait{width:min(46%,250px);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 8px var(--bg),0 0 0 9px var(--line),var(--lift);background:var(--card);transition:box-shadow .7s var(--ease)}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.02)}
+.now{margin-top:clamp(22px,4vh,40px);display:flex;flex-wrap:wrap;gap:6px 22px;font:400 12.5px/1.6 var(--mono);color:var(--muted)}
+.now b{font-weight:400;color:var(--ink)}
 
-/* 1 · hero */
-.hero{justify-items:center;text-align:center;gap:clamp(28px,5.5vh,60px)}
-h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;letter-spacing:-.022em;color:var(--heading);text-wrap:balance;max-width:11em}
-.session{width:min(540px,100%);background:var(--card);border-radius:12px;box-shadow:var(--lift2);text-align:left}
-.live{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);color:var(--secondary);font:400 13px/18px var(--sans)}
-.dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--live);animation:breath 2.4s ease-in-out infinite}
-@keyframes breath{0%,100%{box-shadow:0 0 0 0 rgba(var(--lit),.5)}60%{box-shadow:0 0 0 6px rgba(var(--lit),0)}}
+/* 2 notes */
+.notes{padding:clamp(80px,14vh,140px) var(--pad);max-width:1180px;margin:0 auto}
+.notes h2{font:340 clamp(34px,4.4vw,64px)/1.02 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.03em;color:var(--ink);max-width:15em;margin:18px 0 clamp(36px,7vh,72px)}
+.notes h2 em{font-style:italic;color:var(--aub)}
+.note{display:grid;grid-template-columns:72px minmax(0,1fr);gap:clamp(12px,3vw,40px);padding:clamp(26px,4vh,40px) 0;border-top:1px solid var(--line)}
+.note:last-child{border-bottom:1px solid var(--line)}
+.num{font:300 clamp(28px,3vw,44px)/1 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--faint)}
+.note h3{font:400 clamp(24px,2.6vw,36px)/1.1 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.02em;color:var(--ink)}
+.open{margin-top:12px;max-width:38em;font-size:clamp(16px,1.3vw,18.5px);line-height:1.6;color:var(--text)}
+.note details{margin-top:14px}
+.note summary{list-style:none;display:inline-flex;align-items:center;gap:8px;font:400 12.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--aub);cursor:pointer}
+.note summary::-webkit-details-marker{display:none}
+.note summary::after{content:"+";font-size:15px;transition:transform .3s var(--ease)}
+.note details[open] summary::after{transform:rotate(45deg)}
+.body{max-width:38em;margin-top:18px;font-size:16.5px;line-height:1.7;color:var(--text)}
+.body p+p{margin-top:14px}
+.body b{color:var(--ink);font-weight:700}
+.stamp{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin-top:20px;font:400 12px/1.5 var(--mono);color:var(--faint)}
+.stamp .sig{font:italic 400 22px/1 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--ink);letter-spacing:-.01em}
+.stamp a{color:var(--aub)}
+@media (hover:hover){.stamp a:hover{text-decoration:underline;text-underline-offset:3px}}
+.soon{margin-top:12px;font:400 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.body .sh{margin-top:22px;font:400 19px/1.25 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--ink)}
+
+/* 3 the company running, pinned */
+.pin{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,80px);padding:88px var(--pad) 132px}
+.pin .fig{height:min(60vh,560px)}
+.lanes{position:relative}
+.lane{position:absolute;left:50%;transform:translate(-50%,-50%);padding:4px 10px;border-radius:999px;background:var(--bg);color:var(--muted);font:400 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .3s var(--ease)}
+.lanes.open .lane{opacity:1}
+.lane.wait{color:var(--ember)}
+.runcard{background:var(--card);border-radius:14px;box-shadow:var(--lift);padding:clamp(22px,2.8vw,36px)}
+.runcard h3{font:360 clamp(26px,3vw,42px)/1.06 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.025em;color:var(--ink);margin:14px 0 clamp(14px,2.4vh,24px)}
+.log{list-style:none;display:grid;gap:2px;border-top:1px solid var(--line);padding-top:10px}
+.ev{display:grid;grid-template-columns:64px 10px minmax(0,1fr);align-items:baseline;gap:10px;padding:6px 0;font-size:15px;line-height:1.4;color:var(--text);transition:opacity .4s var(--ease)}
+.ev .tag{font:400 11.5px/1.4 var(--mono);color:var(--faint)}
+.ev i{width:7px;height:7px;border-radius:50%;background:rgba(var(--dot),.25);align-self:center}
+.ev.held i{background:var(--ember)}
+.ev.done i{background:var(--aub)}
+.ev b{font-weight:700;color:var(--ink)}
+.runnote{margin-top:14px;font:400 12.5px/1.5 var(--mono);color:var(--muted)}
+.js .rules{height:170vh}
+.js .pin{position:sticky;top:0;height:100vh;height:100dvh}
+.js .ev{opacity:.16}.js .ev.on{opacity:1}
+
+/* 4 people decide */
+.gatesec{justify-items:center;text-align:center;gap:clamp(22px,4vh,40px)}
+.big{font:340 clamp(36px,5.2vw,76px)/1.02 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.03em;color:var(--ink);max-width:13em;text-wrap:balance}
+.big em{font-style:italic;color:var(--aub)}
+.session{width:min(540px,100%);background:var(--card);border-radius:14px;box-shadow:var(--lift);text-align:left}
+.you{display:flex;justify-content:flex-end;padding:14px 16px 12px}
+.you span{max-width:88%;background:rgba(var(--dot),.06);color:var(--ink);padding:9px 14px;border-radius:16px 16px 4px 16px;font-size:15px}
+.live{display:flex;align-items:center;gap:10px;padding:13px 16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--text);font-size:14px}
+.dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--ember);animation:breath 2.4s ease-in-out infinite}
+@keyframes breath{0%,100%{box-shadow:0 0 0 0 rgba(196,73,44,.45)}60%{box-shadow:0 0 0 6px rgba(196,73,44,0)}}
 #step{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.count{flex:none;color:var(--faint);font:400 12px/18px var(--sans);white-space:nowrap}
-.count b{font:500 12px/18px var(--mono);color:var(--muted)}
+.count{flex:none;color:var(--faint);font:400 12px/1 var(--mono)}
+.count b{font-weight:400;color:var(--muted)}
 .ask{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;padding:14px 16px}
-.ask p{min-width:0;color:var(--secondary);font:400 14px/20px var(--sans)}
-.ask p b{font-weight:500;color:var(--heading)}
+.ask p{min-width:0;color:var(--text);font-size:15px}
+.ask p b{color:var(--ink)}
 .ask p span{color:var(--faint)}
 .ask.idle p{color:var(--faint)}
 .acts{flex:none;display:flex;align-items:center;gap:16px}
 .ask:not(.pending) .acts{visibility:hidden}
-.deny{color:var(--muted);font:500 13px/18px var(--sans);transition:color .12s}
-.deny:hover{color:var(--heading)}
+.deny{color:var(--muted);font:400 13px/1 var(--mono)}
+.approve{height:36px;padding:0 18px;border-radius:999px;background:var(--ember);color:#FFFFFF;font:400 13px/1 var(--mono);letter-spacing:.02em}
 .mark{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:9px;vertical-align:1px}
+.sub{color:var(--muted);font-size:16px}
 
-/* 2 · one agent */
-.duo{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px)}
-.duo .fig{height:min(62vh,560px)}
-.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(20px,3.4vh,32px)}
-.note{margin-top:16px;color:var(--muted);font:400 15px/22px var(--sans)}
+/* 5 out in the bay */
+.bay{padding:clamp(80px,14vh,140px) var(--pad);max-width:1180px;margin:0 auto}
+.bay h2{font:340 clamp(34px,4.4vw,64px)/1.02 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.03em;color:var(--ink);margin:18px 0 clamp(28px,5vh,52px);max-width:14em}
+.bay h2 em{font-style:italic;color:var(--aub)}
+.films{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,28px)}
+.film{display:block;border-radius:14px;overflow:hidden;background:var(--card);box-shadow:var(--lift);transition:transform .4s var(--ease)}
+@media (hover:hover){.film:hover{transform:translateY(-3px)}}
+.film img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.film p{padding:14px 16px 16px;font-size:15px;line-height:1.45;color:var(--text)}
+.film p b{display:block;font:400 21px/1.15 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--ink);margin-bottom:4px}
+.rooms{list-style:none;margin-top:clamp(28px,5vh,48px);border-top:1px solid var(--line)}
+.rooms li{border-bottom:1px solid var(--line)}
+.rooms a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;padding:14px 0;font-size:16px;color:var(--text);transition:color .15s}
+.rooms a span{font:400 12px/1 var(--mono);color:var(--faint)}
+@media (hover:hover){.rooms a:hover{color:var(--ink)}.rooms a:hover span{color:var(--aub)}}
+.credit{margin-top:14px;font:400 12px/1.5 var(--mono);color:var(--faint)}
 
-/* 3 · the rules, pinned */
-.pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:center;gap:clamp(24px,5vw,80px);padding:88px var(--pad) 128px}
-.pin .fig{height:min(64vh,600px)}
-.rulecard{background:var(--card);border-radius:12px;box-shadow:var(--lift2);padding:clamp(22px,3vw,40px)}
-.stack{display:grid;list-style:none;gap:28px}
-.rule .meta{display:flex;gap:10px;margin-bottom:14px;color:var(--faint);font:400 12.5px/18px var(--sans)}
-.rule .meta b{font:500 12.5px/18px var(--mono);color:var(--muted)}
-.rule h3{font:500 clamp(26px,3.5vw,48px)/1.08 var(--sans);letter-spacing:-.032em;color:var(--heading);text-wrap:balance}
-.ticks{display:flex;gap:5px;margin-top:clamp(22px,3.4vh,38px)}
-.ticks button{flex:1;height:16px;position:relative}
-.ticks button::after{content:"";position:absolute;left:0;right:0;top:7px;height:2px;border-radius:2px;background:var(--border);transition:background .2s}
-.ticks button.on::after{background:var(--heading)}
-.js .rules{height:500vh}
-.js .pin{position:sticky;top:0;height:100vh;height:100dvh}
-.js .stack{gap:0}
-.js .rule{grid-area:1/1;opacity:0;transform:translateY(8px);transition:opacity .36s var(--ease),transform .36s var(--ease)}
-.js .rule.on{opacity:1;transform:none}
-
-/* 4 · the podcast */
+/* 6 the table / podcast (evening) */
 .pod .fig{height:clamp(110px,22vh,220px);margin:clamp(26px,5vh,56px) 0}
-.pod .big{max-width:13em}
-.pod .ink{margin-left:6px}
+.pod .big{max-width:12em}
+.podnote{margin-top:18px;max-width:34em;font-size:clamp(16px,1.3vw,18.5px);color:var(--text)}
+.podnote b{color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.pill{display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:999px;box-shadow:0 0 0 1px var(--line);color:var(--muted);font:400 12.5px/1 var(--mono)}
+a.pill:hover{color:var(--ink)}
+.cta{display:inline-flex;align-items:center;height:36px;padding:0 18px;border-radius:999px;background:var(--ink);color:var(--on-ink);font:400 13px/1 var(--mono)}
 
-/* 5 · say hi */
-.end{justify-items:center;gap:20px;text-align:center}
-.composer{display:flex;align-items:center;gap:8px;width:min(560px,100%);height:54px;padding:0 8px 0 20px;border-radius:27px;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px var(--rim),0 0 0 1px var(--border),var(--lift2)}
-.composer input{flex:1;min-width:0;background:none;border:0;color:var(--text);font:400 16px/22px var(--sans)}
+/* 7 close */
+.end{justify-items:center;gap:22px;text-align:center}
+.composer{display:flex;align-items:center;gap:8px;width:min(560px,100%);height:56px;padding:0 8px 0 22px;border-radius:28px;background:var(--card);box-shadow:var(--lift)}
+.composer input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--ink);font:400 16px/22px var(--sans)}
 .composer input::placeholder{color:var(--faint)}
-.send{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--heading);color:var(--on-ink)}
+.send{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--on-ink)}
 .end .row{justify-content:center}
-.foot{margin-top:clamp(28px,9vh,88px);color:var(--faint);font:400 12px/18px var(--sans)}
+.foot{margin-top:clamp(28px,9vh,88px);font:400 12px/1.6 var(--mono);color:var(--faint)}
 
-@media (max-width:760px){
-  .duo{grid-template-columns:1fr}
-  .duo .fig{height:36vh;order:-1}
-  .pin{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;align-items:stretch;padding-top:72px}
-  .pin .fig{height:auto;min-height:160px}
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr}
+  .orbfig{height:46vh;order:-1;margin-top:8px}
+  .portrait{width:min(52%,210px)}
+  .pin{grid-template-columns:1fr;grid-template-rows:auto auto;align-content:center;gap:12px;padding:64px var(--pad) 120px}
+  .pin .fig{height:22vh;min-height:120px}
+  .lane{display:none}
+  .runcard{padding:18px 18px 16px}
+  .runcard h3{font-size:24px;margin:10px 0 12px}
+  .ev{grid-template-columns:52px 8px minmax(0,1fr);gap:8px;padding:3px 0;font-size:13.5px}
+  .note{grid-template-columns:1fr;gap:8px}
+  .films{grid-template-columns:1fr}
 }
-
-/* motion: enter is 8px and a fade, nothing bounces */
-.rise{animation:rise .7s var(--ease) both}
-.d1{animation-delay:.12s}
-@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.js .rv{opacity:0;transform:translateY(8px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rise{animation:rise .8s var(--ease) both}.d1{animation-delay:.12s}.d2{animation-delay:.24s}.d3{animation-delay:.36s}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.js .rv{opacity:0;transform:translateY(10px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .js .rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){
-  .rise,.dot{animation:none}
-  .js .rv{opacity:1;transform:none}
-  *{transition:none!important}
-}
+@media (prefers-reduced-motion:reduce){.rise,.dot{animation:none}.js .rv{opacity:1;transform:none}*{transition:none!important}}
 </style>
 </head>
 <body>
@@ -169,75 +217,255 @@ h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;l
 <nav class="nav">
   <span class="me">Chris Starr</span>
   <span class="links">
-    <button type="button" data-to="rules">Rules</button>
+    <button type="button" data-to="notes">Notes</button>
+    <button type="button" data-to="bay">Out</button>
     <button type="button" data-to="podcast">Podcast</button>
-    <button type="button" class="theme" id="theme" aria-label="Switch theme"><svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/></svg></button>
-    <a class="pill" href="https://x.com/chrisstarrai" target="_blank" rel="noopener">Follow<span class="wide">&nbsp;on X</span></a>
+    <button type="button" class="ico theme" id="theme" aria-label="Switch theme"><svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"/></svg></button>
+    <a class="ico" href="https://x.com/chrisstarrai" target="_blank" rel="noopener" aria-label="Chris Starr on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
   </span>
 </nav>
 
-<section class="scene hero" id="top" data-fig="flow">
-  <h1 class="rise" data-rock>Security for agents that act.</h1>
-  <div class="session rise d1" data-rock>
-    <p class="live"><i class="dot"></i><span id="step">Reading the diff…</span><span class="count"><b id="ran">0</b> ran · <b id="waited">0</b> waited</span></p>
-    <div class="ask pending" id="ask">
-      <p id="line">Your agent wants to <b>pay $420</b></p>
-      <span class="acts"><button type="button" class="deny" id="deny">Deny</button><button type="button" class="ink" id="go">Approve</button></span>
-    </div>
+<section class="scene hero" id="top">
+  <div>
+    <p class="label rise">chrisstarr.ai · San Francisco</p>
+    <h1 class="rise d1">One agent.<br><em>A whole company.</em></h1>
+    <p class="lede rise d2">I build <b>Arion</b>, the AI agent Arena runs on, and I cook for the people I build with.</p>
+  </div>
+  <div class="orbfig" data-fig="orb" role="img" aria-label="Chris Starr, inside a slowly turning sphere of points: one agent.">
+    <div class="portrait rise d2"><img src="https://unavatar.io/x/chrisstarrai" alt="Chris Starr" onerror="this.onerror=null;this.src='https://github.com/chrisstarrai.png?size=460'"></div>
   </div>
 </section>
 
-<section class="scene duo" id="agent">
-  <div class="rv">
-    <p class="big">One agent.<br>A whole company.</p>
-    <p class="pills"><span class="pill">merges code</span><span class="pill">signs in</span><span class="pill">spends money</span></p>
-    <p class="note">I built what makes that safe.</p>
-  </div>
-  <div class="fig" data-fig="orb" role="img" aria-label="A slowly turning sphere of points: one agent."></div>
-</section>
-
-<section class="rules" id="rules">
+<section class="rules" id="run">
   <div class="pin">
-    <div class="fig" data-fig="num" aria-hidden="true"></div>
-    <div class="rulecard">
-      <p class="label">Rules for agents that act</p>
-      <ol class="stack">
-        <li class="rule on"><p class="meta"><b>01 / 10</b><span>Secrets</span></p><h3>The agent never sees your passwords.</h3></li>
-        <li class="rule"><p class="meta"><b>02 / 10</b><span>Secrets</span></p><h3>Machines hold no tokens.</h3></li>
-        <li class="rule"><p class="meta"><b>03 / 10</b><span>Approval</span></p><h3>Pause for what matters. Run everything else.</h3></li>
-        <li class="rule"><p class="meta"><b>04 / 10</b><span>Proof</span></p><h3>Merged isn’t live.</h3></li>
-        <li class="rule"><p class="meta"><b>05 / 10</b><span>Briefs</span></p><h3>Don’t rewrite the ask.</h3></li>
-        <li class="rule"><p class="meta"><b>06 / 10</b><span>Loops</span></p><h3>Count progress, not tries.</h3></li>
-        <li class="rule"><p class="meta"><b>07 / 10</b><span>Proof</span></p><h3>An agent that never looks ships glitches.</h3></li>
-        <li class="rule"><p class="meta"><b>08 / 10</b><span>Consent</span></p><h3>Ask before an agent acts as someone else.</h3></li>
-        <li class="rule"><p class="meta"><b>09 / 10</b><span>Proof</span></p><h3>Say whether the tests ran. At the top.</h3></li>
-        <li class="rule"><p class="meta"><b>10 / 10</b><span>Durability</span></p><h3>Work survives a machine dying.</h3></li>
+    <div class="fig lanes" id="lanes" data-fig="threads" role="img" aria-label="One thread splits into four teams, works in parallel, waits for a person's yes, and comes back as one.">
+      <span class="lane wait" style="top:19%">Hiring</span><span class="lane" style="top:35%">Deals</span><span class="lane" style="top:65%">Onboarding</span><span class="lane" style="top:81%">Engineering</span>
+    </div>
+    <div class="runcard">
+      <p class="label">The company, running</p>
+      <h3>Every team at once. <em class="serif" style="font-style:italic;color:var(--aub)">One thread</em> to talk to.</h3>
+      <ol class="log">
+        <li class="ev on"><span class="tag">You</span><i></i><p>Sam’s offer, the Northwind renewal, Maya’s first day, the release.</p></li>
+        <li class="ev"><span class="tag">Hiring</span><i></i><p>Read every applicant. Booked five screens.</p></li>
+        <li class="ev"><span class="tag">Deals</span><i></i><p>Drafted the renewal from the last call.</p></li>
+        <li class="ev"><span class="tag">Eng</span><i></i><p>A check went red. Found why, fixed it, merged.</p></li>
+        <li class="ev held"><span class="tag">Hiring</span><i></i><p>Held for your yes: <b>send Sam’s offer</b>.</p></li>
+        <li class="ev done"><span class="tag">Done</span><i></i><p><b>Done.</b> Four teams moved. The call was yours.</p></li>
       </ol>
-      <div class="ticks" id="ticks"></div>
     </div>
   </div>
+</section>
+
+<section class="scene gatesec" id="people" data-fig="flow">
+  <p class="label rv">People decide</p>
+  <p class="big rv" data-rock>The agent does the work. <em>People make the calls.</em></p>
+  <div class="session rv" data-rock>
+    <p class="you"><span>Send Sam the offer we agreed.</span></p>
+    <p class="live"><i class="dot"></i><span id="step">Checking the offer against the plan…</span></p>
+    <div class="ask pending" id="ask">
+      <p id="line">Arion wants to <b>send Sam’s offer</b></p>
+      <span class="acts"><button type="button" class="deny" id="deny">Deny</button><button type="button" class="approve" id="go">Approve</button></span>
+    </div>
+  </div>
+</section>
+
+<section class="notes" id="notes" data-fig="calm">
+  <p class="label rv">What I believe</p>
+  <h2 class="rv">How an agent should <em>feel.</em></h2>
+  <article class="note rv">
+    <span class="num">01</span>
+    <div>
+      <h3>One agent you trust beats ten you manage.</h3>
+      <p class="open">With a fleet of bots, you’re the orchestrator. With one agent, the agent is.</p>
+      <details>
+        <summary>Read the essay</summary>
+        <div class="body">
+          <p>The pitch for AI agents right now is a team. A research bot, a sales bot, a coding bot, a recruiting bot, each with its own scope, its own tools and its own little dashboard. It looks like an org chart. I think that’s exactly the problem.</p>
+          <p class="sh">Roles are dissolving, and bots freeze them</p>
+          <p>Work doesn’t sort into clean roles anymore. In a single afternoon I might look at a hiring loop, fix a bug, prep for a partner meeting and get someone’s first week set up. AI made that possible, and it’s making it normal.</p>
+          <p>Scoped bots take the old job descriptions and turn them into software, right as those job descriptions stop meaning much. You end up with a tool shaped like the company you used to be.</p>
+          <p class="sh">Every bot is a relationship you have to build</p>
+          <p>Trust doesn’t transfer between agents. With each one you learn what it’s good at, where it fails and what it’s allowed to touch. That takes time, and you pay it again for every bot.</p>
+          <p>Context doesn’t transfer either. You explain the project to the sales bot, then again to the research bot, then again to the one that writes the follow-up. Ten bots means ten onboardings.</p>
+          <p>And then you’re their manager. You track which one is doing what, chase the one that got stuck, and reconcile answers that don’t agree. The work was supposed to come off your plate. Instead you got a team to run.</p>
+          <p class="sh">One agent, trusted once</p>
+          <p>The alternative is one agent you talk to in one thread. You build trust with it once, and it deepens with every task. Context compounds: it already knows the project, the people and how you like things done. When the work needs splitting, it splits it, keeps track of the pieces and comes back with the result.</p>
+          <p>That’s how I work with Arion, the agent Arena runs on. I keep talking in the same conversation, and it works out what becomes its own piece of work.</p>
+          <p class="sh">Underneath, it can look the same</p>
+          <p>To be fair to the bots: inside, a single agent may start workers, run specialised steps and do things in parallel. Architecturally, that can look a lot like a fleet.</p>
+          <p>The difference isn’t the machinery. It’s who manages it. With a fleet of bots, you’re the orchestrator. With one agent, the agent is. You hold one relationship and get the leverage of many.</p>
+          <p class="sh">What it looked like this week</p>
+          <p>I wanted a personal site. In one conversation, a lot of it from my phone, I asked for it, rejected the first version, asked for a dark mode switch, said publish it, then said set up email too. It published the site, pointed the domain and set up the mailbox. When I said cost mattered more to me than Gmail, it switched providers mid-task.</p>
+          <p>I never opened another tool or briefed another bot. I signed in where it needed me and said yes before it spent money. Everything else, it carried.</p>
+          <p class="sh">The tradeoff</p>
+          <p>One agent is a bigger bet. If it holds your trust across everything, it also holds more of your world, so a mistake reaches further.</p>
+          <p>That’s why I think security and design are the same problem here. The agent acts with your authority but never sees your passwords. It asks before the steps you can’t take back, and moves freely everywhere else. A single agent only works if it earns more trust than any one bot would ever need.</p>
+          <p class="sh">What’s still hard</p>
+          <p>Knowing when to split work without being told. Showing what’s happening underneath without turning back into a dashboard. The thread has to stay simple on the surface while the work behind it gets bigger and runs longer on its own. That’s the part I’m working on now.</p>
+          <p><b>I don’t want to manage agents. I want one I can trust.</b></p>
+        </div>
+        <p class="stamp"><span class="sig">Chris</span><a href="https://x.com/chrisstarrai" target="_blank" rel="noopener">Discuss on X ↗</a></p>
+      </details>
+    </div>
+  </article>
+  <article class="note rv">
+    <span class="num">02</span>
+    <div>
+      <h3>Your agent shouldn’t need a computer.</h3>
+      <p class="open">Your phone, your watch, even a toaster. The device is just the interface. The computer lives in the cloud.</p>
+      <details>
+        <summary>Read the essay</summary>
+        <div class="body">
+          <p>Most AI agents still assume you’re sitting at a computer. The agent runs on your laptop, in a terminal or a desktop app, and when the lid closes, the work stops. I think that’s backwards.</p>
+          <p class="sh">The device is just the interface</p>
+          <p>You should be able to talk to your agent from anywhere: your phone, your watch, the car, a toaster if it had a microphone. The thing in your hand only has to hear you and show you the result. The work happens somewhere else.</p>
+          <p>Once you see it that way, the device stops mattering. It doesn’t need to be powerful. It doesn’t need to be yours. It just needs to be there when you want to say something.</p>
+          <p class="sh">One computer was never enough</p>
+          <p>A laptop is one machine, with one battery, one network connection and one set of windows. Real work doesn’t fit in that. A big change wants a machine to build and test on, another to check it in a real browser, another to research the next thing while the first is still running.</p>
+          <p>In the cloud, that’s a few more machines. On a laptop, it’s a fan spinning and a lid you can’t close. Cloud machines keep going when you walk away, and they’re still there when you come back.</p>
+          <p class="sh">Coding from a phone</p>
+          <p>This is the part people push back on most. I think coding should be possible from a phone, with the laptop optional. Not typing code with your thumbs. Saying what you want, watching it get built and tested on machines you’ll never see, looking at the result, and saying ship it.</p>
+          <p>When the agent does the typing, the keyboard stops being the bottleneck. What’s left is judgement, and judgement works fine on a small screen.</p>
+          <p class="sh">What it looks like for me</p>
+          <p>I stopped using a desktop agent this year. Not because it was bad, but because I kept reaching for my phone instead, and Arion, the agent Arena runs on, just kept working there. It feels seamless.</p>
+          <p>Going back to a tool that only works when I’m at my desk now feels like going back to a phone with a cord.</p>
+          <p class="sh">The tradeoff</p>
+          <p>When the computer lives in the cloud, so does your work. That’s a real cost, and it’s why I think security has to come first here. The agent should act with your authority without ever holding your passwords, and its machines should carry as little as they possibly can.</p>
+          <p class="sh">What’s still hard</p>
+          <p>Signing in. A passkey on your phone doesn’t always reach a screen in the cloud, and every sign-in wall pulls you back toward a keyboard. Reviewing a big change on a small screen. Making something that runs far away feel as immediate as something on your desk.</p>
+          <p>None of that changes the direction. The future is minimal. The device is irrelevant.</p>
+          <p><b>It’s just the interface.</b></p>
+        </div>
+        <p class="stamp"><span class="sig">Chris</span><a href="https://x.com/chrisstarrai" target="_blank" rel="noopener">Discuss on X ↗</a></p>
+      </details>
+    </div>
+  </article>
+  <article class="note rv">
+    <span class="num">03</span>
+    <div>
+      <h3>The best agent interface is the one you forget.</h3>
+      <p class="open">No modes, no model menus, no dashboard. You talk, and it comes back done.</p>
+      <details>
+        <summary>Read the essay</summary>
+        <div class="body">
+          <p>Every agent product I try keeps adding things. A mode picker. A model menu. A panel for memory, a tab for every running task, a settings page that scrolls. Each one makes sense on its own. Together they turn the person into the operator of the thing they came to for help.</p>
+          <p>I think the best agent interface is the one you forget is there.</p>
+          <p class="sh">Relief is the feature</p>
+          <p>When an agent really works, the feeling isn’t power. It’s relief. You say the thing you’ve been carrying around, and it’s off your plate. You didn’t choose a mode or a model or a window. You talked, and it came back done.</p>
+          <p>That feeling is the product. Everything on the screen either protects it or gets in its way.</p>
+          <p class="sh">Hide it until it’s asked for</p>
+          <p>Complexity isn’t the enemy. Showing it too early is. A dropdown is the product asking you to decide something: which model, how hard to think, which agent handles this. Sometimes you care. Most of the time the honest answer is “whatever’s best, you work it out.”</p>
+          <p>So it should. Arion picks the model for the work, and you can still pick one yourself. The controls are all there. They stay out of sight until you ask for them, and every one you don’t have to see is a decision nobody has to make.</p>
+          <p class="sh">The best work happens out of sight</p>
+          <p>Much of what makes it feel seamless is work you never watch: the branch it brings up to date, the check it reruns, the follow-up it files so nothing drops.</p>
+          <p>And it shouldn’t wait to be asked. A good colleague tells you about the thing that needs you before you go looking, and stays quiet about the rest. Proactive, not noisy: a tap on the shoulder only when something actually needs you.</p>
+          <p class="sh">Talking is the interface</p>
+          <p>The most natural interface anyone has is saying what they want. That’s why voice matters so much to me. It’s the shortest path from a thought to a task: walking, between meetings, the moment you remember.</p>
+          <p>When the voice is good, the screen stops being where you work. It’s where you glance at the result.</p>
+          <p class="sh">Every feature is a design decision</p>
+          <p>One thread and working from your phone sound like features. They’re design decisions. One thread means there’s nothing to organise, because the agent organises it. Phone-first means everything has to fit a small screen and a few words, which forces out anything that isn’t needed. Each constraint takes something away, and the product gets better for it.</p>
+          <p class="sh">Simple isn’t for beginners</p>
+          <p>People hear “minimal” and think dumbed down. It’s the opposite. Engineers use it for long, complicated work. People who have never opened a terminal use it for the rest of the company. They like it for the same reason: there’s nothing to learn.</p>
+          <p>A simple surface is how you carry a lot of complexity underneath without handing any of it to the person.</p>
+          <p class="sh">Simpler every week</p>
+          <p>Lots of agents promise this. The test is whether you keep reaching for it without thinking, and that gap is made of hundreds of small, invisible things: it remembers what you said yesterday, picks up when a machine dies halfway through, doesn’t make you repeat yourself, and tells you when something’s done instead of making you check.</p>
+          <p>None of that shows up in a demo. But it compounds. Every week something that used to take a step takes none, and the product gets simpler while it does more.</p>
+          <p class="sh">What it looks like for me</p>
+          <p>The best thing anyone has said to me about it: a colleague called it the best tool they’ve ever used at work. That’s the compliment I care about most. It isn’t about a feature. It’s about how the thing feels to use.</p>
+          <p class="sh">The tradeoff</p>
+          <p>Hiding the machinery is easy to overdo. If you can’t see what an agent is doing, you can’t stop it when it’s wrong. So the rule I hold to: hide the machinery, never the decisions. Anything you can’t take back still comes to you, plainly, with a yes or a no.</p>
+          <p class="sh">What’s still hard</p>
+          <p>Knowing when to speak up and when to stay quiet. Making a default good enough that you never wonder about it, and obvious enough when it’s wrong that you notice. Voice that keeps up in a loud room. Each of those is a place where the interface comes back into view, and the work is making it disappear again.</p>
+          <p><b>The less you notice it, the better it’s working.</b></p>
+        </div>
+        <p class="stamp"><span class="sig">Chris</span><a href="https://x.com/chrisstarrai" target="_blank" rel="noopener">Discuss on X ↗</a></p>
+      </details>
+    </div>
+  </article>
+  <article class="note rv">
+    <span class="num">04</span>
+    <div>
+      <h3>Trust is a design problem.</h3>
+      <p class="open">It never gets more access than you, never sees your passwords, and asks only before the steps you can’t take back.</p>
+      <details>
+        <summary>Read the essay</summary>
+        <div class="body">
+          <p>Most talk about agent security sounds like a firewall: what to block, what to sandbox, what to log. That matters. But the question a person actually asks is simpler. Can I hand this thing my work and stop watching it?</p>
+          <p>That’s a design question, and I think it decides whether anyone keeps using an agent.</p>
+          <p class="sh">Authority, not credentials</p>
+          <p>To do real work, an agent has to act as you: send the email, merge the change, book the room. The lazy way is to hand it your keys. The better way is to give it your authority and keep the keys.</p>
+          <p>It goes through doors you opened. It never holds the password. If it’s ever confused or compromised, what it carries is as small as it can be.</p>
+          <p>And it never gets more than you have. If you can’t open a repository, a channel or a file, neither can it. An agent should inherit your reach, never widen it.</p>
+          <p class="sh">One set of doors, in one place</p>
+          <p>Every tool an agent touches is its own door: its own sign-in, its own permissions, its own log. Wire each one up differently and nobody can answer the simplest question: what can it actually do, and as whom?</p>
+          <p>So access should work the same way across everything. Every connection goes through one place, under the same rules, and you can see all of it at a glance: what’s connected, as whom, and what it can reach. Easy to manage is part of secure. A permission nobody can see is one nobody will ever take back.</p>
+          <p class="sh">Build on the security you already have</p>
+          <p>A company already decides who gets in: its sign-in, its access rules, the systems its security team watches. An agent shouldn’t build a second world beside that. It should plug into the one that’s there, so the same rules, the same reviews and the same alarms cover it too.</p>
+          <p>The safest agent isn’t the one with the cleverest sandbox. It’s the one your security team already knows how to watch.</p>
+          <p class="sh">Ask less, so it means more</p>
+          <p>The usual answer to risk is a confirm box on everything. That’s security theatre. By the tenth “Allow?” people stop reading and tap yes, and the one that mattered goes by with the rest.</p>
+          <p>So it should ask rarely and plainly: before money moves, before a message leaves for someone outside, before anything you can’t take back. Everything else runs. And when it does ask, the question fits on a watch. What, for whom, how much. Yes or no.</p>
+          <p class="sh">Say what you checked</p>
+          <p>Trust isn’t only about what an agent is allowed to do. It’s whether you can believe what it tells you. Done should mean done. Merged isn’t live, sent isn’t delivered, and a list that was cut short has to say so.</p>
+          <p>The agents I trust say what they checked and what they didn’t, up front, without being asked. One that admits a gap is worth more than one that always sounds sure.</p>
+          <p class="sh">The room decides what it knows</p>
+          <p>One agent across a whole company hears a lot. So what it can use should depend on where it’s asked, not only on who’s asking. In a shared channel, it should know only what everyone there could know.</p>
+          <p>And it never acts as someone else without their yes. Setting something up for a colleague starts with asking the colleague.</p>
+          <p class="sh">What it looked like this week</p>
+          <p>When it built my site and set up my mailbox, it came back to me for a handful of things: signing in where only I could, a choice between two mail plans, and a yes before it spent money. Everything else just happened.</p>
+          <p>Then I asked why it had recommended the pricier mail provider. It told me straight: it had picked that default before reading the prices, and its own recommendation had steered my choice. Then it switched. That admission did more for my trust than any of the work.</p>
+          <p class="sh">The tradeoff</p>
+          <p>Every question an agent doesn’t ask is a bet that it judged the stakes right. Wrong one way, you’re back to tapping yes all day. Wrong the other way, something you can’t undo happens without you.</p>
+          <p>No setting makes that go away. It’s judgement, earned and adjusted over time, the way it is with a person you work with.</p>
+          <p class="sh">What’s still hard</p>
+          <p>Knowing, reliably, which steps can be undone. Making an approval clear enough to answer from a watch without opening anything. Sign-ins that don’t reach a screen in the cloud. And making trust as easy to take back as it was to give.</p>
+          <p><b>Trust isn’t a feature you add at the end. It’s what the whole thing is designed around.</b></p>
+        </div>
+        <p class="stamp"><span class="sig">Chris</span><a href="https://x.com/chrisstarrai" target="_blank" rel="noopener">Discuss on X ↗</a></p>
+      </details>
+    </div>
+  </article>
+</section>
+
+<section class="bay" id="bay" data-fig="calm">
+  <p class="label rv">Out in the Bay · this fall</p>
+  <h2 class="rv">The rooms where agents get <em>argued about.</em></h2>
+  <div class="films rv">
+    <a class="film" href="https://www.youtube.com/watch?v=5SzfJxreet0" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/5SzfJxreet0/hqdefault.jpg" alt="A still from Chloe Starr's film of the Dimensional robot office-warming" loading="lazy"><p><b>A robot office-warming</b>Dimensional, filmed by Chloe.</p></a>
+    <a class="film" href="https://www.youtube.com/watch?v=pCj3dZRJsAg" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/pCj3dZRJsAg/hqdefault.jpg" alt="A still from Chloe Starr's film A Little Night Out, Vanta to Cloudflare" loading="lazy"><p><b>Security, a backpack, and The Chainsmokers</b>An agent-security night, then stopped by stadium security over my backpack.</p></a>
+  </div>
+  <ul class="rooms rv">
+    <li><a href="https://chloestarr.me/journal/three-infrastructure-nightmares/" target="_blank" rel="noopener">Haunted Agent + Infra Horror Night: I asked the harness question<span>Read ↗</span></a></li>
+    <li><a href="https://chloestarr.me/journal/purple-curtains-and-a-poetry-recut/" target="_blank" rel="noopener">The Mem-Off at Pebblebed, on agent memory<span>Read ↗</span></a></li>
+    <li><a href="https://chloestarr.me/portals/" target="_blank" rel="noopener">Claude Founder House, Hugging Face Open Together, the Open Source AI Awards<span>All ↗</span></a></li>
+  </ul>
+  <p class="credit rv">Films and field notes by Chloe Starr, my wife and co-founder on PipelineOM.</p>
 </section>
 
 <section class="scene pod" id="podcast">
   <div class="rv">
-    <p class="label">The podcast</p>
-    <p class="big">What did your agent do that it shouldn’t have?</p>
+    <p class="label">At the table · the podcast</p>
+    <p class="big">Dinner first. <em>Then we press record.</em></p>
+    <p class="podnote"><b>Talking to Computers.</b> I cook for people building with agents. Then we press record and talk about what’s actually working.</p>
   </div>
   <div class="fig" data-fig="wave" aria-hidden="true"></div>
-  <p class="row rv"><span class="pill">In person</span><span class="pill">Bay Area</span><span class="pill">30 minutes</span><a class="ink" href="mailto:chris@chrisstarr.ai?subject=Podcast" target="_blank" rel="noopener">Be a guest</a></p>
+  <p class="row rv"><a class="cta" href="mailto:podcast@chrisstarr.ai?subject=Talking%20to%20Computers" target="_blank" rel="noopener">Come to dinner</a></p>
 </section>
 
 <section class="scene end" id="hi" data-fig="flow">
+  <p class="label rv">Say hi</p>
+  <p class="big rv" data-rock>What does your team still do <em>by hand?</em></p>
   <div class="composer rv" data-rock>
-    <input id="msg" type="text" placeholder="Tell me what your agent did…" autocomplete="off" aria-label="Your message">
+    <input id="msg" type="text" placeholder="Tell me. I read every one…" autocomplete="off" aria-label="Your message">
     <a class="send" id="send" href="mailto:chris@chrisstarr.ai" target="_blank" rel="noopener" aria-label="Send as an email"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></a>
   </div>
   <p class="row rv">
     <a class="pill" href="https://x.com/chrisstarrai" target="_blank" rel="noopener">X</a>
+    <a class="pill" href="https://www.linkedin.com/in/chrisstarrai/" target="_blank" rel="noopener">LinkedIn</a>
     <a class="pill" href="https://github.com/chrisstarrai" target="_blank" rel="noopener">GitHub</a>
     <a class="pill" href="mailto:chris@chrisstarr.ai" target="_blank" rel="noopener">Email</a>
   </p>
-  <p class="foot">© 2026 Chris Starr · Built by my agent. Approved by me.</p>
+  <p class="foot">© 2026 Chris Starr · Building Arion at Arena · Built by Arion. Approved by me.</p>
 </section>
 
 <script>
@@ -249,35 +477,41 @@ h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;l
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const rnd = Math.random;
 
-  /* the frame can't navigate itself, so jumps scroll by hand */
   $$('[data-to]').forEach((b) => b.addEventListener('click', () => {
     const el = $('#' + b.dataset.to);
     if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   }));
 
-  /* reveals */
   const rvs = $$('.rv');
   if (reduce || !window.IntersectionObserver) rvs.forEach((e) => e.classList.add('in'));
   else {
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.15 });
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
     rvs.forEach((e) => io.observe(e));
   }
 
-  /* hero: a session that runs on its own and waits for a yes */
-  const STEPS = ['Reading the diff…', 'Running the tests…', 'Searching the code…', 'Taking a screenshot…', 'Opening a pull request…', 'Checking the build…', 'Writing the page…'];
-  const ASKS = ['pay $420', 'merge the pull request', 'send the email', 'delete the branch', 'sign in to GitHub', 'deploy to production'];
+  /* evening: the page turns aubergine while the podcast is on screen */
+  const pod = $('#podcast');
+  function eveCheck() {
+    const r = pod.getBoundingClientRect();
+    const on = r.top < innerHeight * 0.55 && r.bottom > innerHeight * 0.45;
+    if (on !== root.classList.contains('eve')) { root.classList.toggle('eve', on); setTimeout(colors, 30); }
+  }
+
+  /* people decide */
+  const STEPS = ['Checking the offer against the plan…', 'Drafting the Northwind renewal…', 'Setting up Maya’s accounts…', 'Running the release checks…', 'Booking five screens…', 'Picking the best model for each…', 'Still going. Nothing needs you…'];
+  const ASKS = ['send Sam’s offer', 'sign the Northwind renewal', 'give Maya admin access', 'ship the release', 'pay the $420 invoice'];
   const stepEl = $('#step'), ranEl = $('#ran'), waitedEl = $('#waited'), ask = $('#ask'), line = $('#line');
   let ran = 0, waited = 0, pending = false, si = 0, ai = 0, burst = 0;
   function setAsk() {
-    pending = true; waited++; waitedEl.textContent = waited;
+    pending = true;
     ask.className = 'ask pending';
-    line.innerHTML = 'Your agent wants to <b>' + ASKS[ai % ASKS.length] + '</b>';
+    line.innerHTML = 'Arion wants to <b>' + ASKS[ai % ASKS.length] + '</b>';
   }
   function settle(ok) {
     if (!pending) return;
     pending = false; burst = ok ? 1 : -1;
     ask.className = 'ask';
-    line.innerHTML = '<i class="mark" style="background:var(--' + (ok ? 'done' : 'stop') + ')"></i>' + (ok ? 'Done' : 'Stopped') + ' <span>· ' + ASKS[ai % ASKS.length] + '</span>';
+    line.innerHTML = '<i class="mark" style="background:var(--' + (ok ? 'aub' : 'faint') + ')"></i>' + (ok ? 'Done' : 'Stopped') + ' <span>· ' + ASKS[ai % ASKS.length] + '</span>';
     ai++;
     setTimeout(() => { if (!pending) { ask.className = 'ask idle'; line.textContent = 'Nothing needs you'; } }, 1500);
     setTimeout(setAsk, 3600);
@@ -287,52 +521,48 @@ h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;l
   setAsk();
   if (!reduce) setInterval(() => {
     if (document.hidden) return;
+    if (ran > 400) ran = 0;
     si = (si + 1) % STEPS.length; stepEl.textContent = STEPS[si];
-    ran += 1 + (rnd() * 3 | 0); ranEl.textContent = ran;
-  }, 1500);
 
-  /* rules: scroll picks the rule, the field draws its number */
-  const rulesEl = $('#rules'), ruleEls = $$('.rule'), ticks = $('#ticks');
-  let ri = -1;
-  const tickEls = ruleEls.map((_, i) => {
-    const b = document.createElement('button');
-    b.type = 'button'; b.setAttribute('aria-label', 'Rule ' + (i + 1));
-    b.addEventListener('click', () => {
-      const r = rulesEl.getBoundingClientRect();
-      scrollTo({ top: scrollY + r.top + (i + 0.5) / ruleEls.length * (r.height - innerHeight), behavior: reduce ? 'auto' : 'smooth' });
-    });
-    ticks.appendChild(b);
-    return b;
-  });
-  function ruleAt() {
-    const r = rulesEl.getBoundingClientRect();
-    const p = Math.max(0, Math.min(0.9999, -r.top / Math.max(1, r.height - innerHeight)));
-    return Math.floor(p * ruleEls.length);
+  }, 1600);
+
+  /* the company running */
+  const runEl = $('#run'), evs = $$('.ev'), lanesEl = $('#lanes'), TH = [-0.62, -0.3, 0.3, 0.62];
+  let ri = -1, spread = 0, gate = false;
+  function runAt() {
+    const r = runEl.getBoundingClientRect();
+    const p = -r.top / Math.max(1, r.height - innerHeight);
+    if (p <= 0.015) return 0;
+    return Math.min(evs.length - 1, 1 + Math.floor((p - 0.015) / 0.9 * (evs.length - 1)));
   }
-  function setRule(i) {
+  function runOpen() {
+    const r = runEl.getBoundingClientRect();
+    return r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.5 && ri < evs.length - 1;
+  }
+  function setRun(i) {
     if (i === ri) return;
     ri = i;
-    ruleEls.forEach((r, j) => r.classList.toggle('on', j === i));
-    tickEls.forEach((t, j) => t.classList.toggle('on', j <= i));
+    evs.forEach((e, j) => { e.classList.toggle('on', j <= i); });
+    gate = !!(evs[i] && evs[i].classList.contains('held'));
   }
 
-  /* say hi: the box writes the email */
+  /* say hi */
   const msg = $('#msg'), send = $('#send'), MAIL = 'mailto:chris@chrisstarr.ai';
   msg.addEventListener('input', () => { const v = msg.value.trim(); send.href = MAIL + (v ? '?body=' + encodeURIComponent(v) : ''); });
   msg.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); send.click(); } });
 
-  /* the field: one set of points that is a stream, a sphere, a number, a voice */
+  /* the field: one set of points that is a stream, a sphere, threads, a voice */
   const cv = $('#field'), g = cv.getContext('2d');
   const figs = $$('[data-fig]');
   figs.forEach((el) => { el._rocks = $$('[data-rock]', el); });
-  const glyphs = new Map();
-  let W = 0, H = 0, N = 0, NS = 0, P = [], sphere = [], ink = '10,37,64', lit = '244,192,6';
-  let mx = -9999, my = -9999, mode = 'flow', t = 0, last = 0, raf = 0, live = false;
+  let W = 0, H = 0, N = 0, NS = 0, P = [], sphere = [], ink = '17,18,20', lit = '196,73,44';
+  let mx = -9999, my = -9999, mode = 'orb', t = 0, last = 0, raf = 0, live = false;
 
   function colors() {
     const cs = getComputedStyle(root);
     ink = cs.getPropertyValue('--dot').trim() || ink;
     lit = cs.getPropertyValue('--lit').trim() || lit;
+    if (!live) { step(1, true); draw(); }
   }
   function size() {
     const d = Math.min(2, window.devicePixelRatio || 1);
@@ -342,46 +572,33 @@ h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;l
     const n = Math.round(Math.max(520, Math.min(1500, W * 1.1)));
     if (n !== N) {
       N = n; NS = Math.round(N * 0.8); P = []; sphere = [];
-      for (let i = 0; i < N; i++) P.push({ x: rnd() * W, y: rnd() * H, vx: 0, vy: 0, s: rnd(), h: 0, ang: 0, z: 1, lit: rnd() < 0.035 });
+      for (let i = 0; i < N; i++) P.push({ x: rnd() * W, y: rnd() * H, vx: 0, vy: 0, s: rnd(), h: 0, ang: 0, z: 1, lit: rnd() < 0.03 });
       for (let i = 0; i < NS; i++) { const y = 1 - 2 * (i + 0.5) / NS, r = Math.sqrt(1 - y * y), a = i * 2.39996323; sphere.push([Math.cos(a) * r, y, Math.sin(a) * r]); }
     }
-    glyphs.clear(); colors();
-  }
-  function glyph(txt, w, h) {
-    const key = txt + '|' + Math.round(w) + '|' + Math.round(h);
-    if (glyphs.has(key)) return glyphs.get(key);
-    const c = document.createElement('canvas'), fs = Math.min(h * 0.95, w * 0.62), pts = [];
-    c.width = Math.max(2, Math.ceil(w)); c.height = Math.max(2, Math.ceil(h));
-    const x = c.getContext('2d', { willReadFrequently: true });
-    x.font = '300 ' + fs + 'px Newsreader, Georgia, serif';
-    x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillText(txt, c.width / 2, c.height / 2 + fs * 0.03);
-    const d = x.getImageData(0, 0, c.width, c.height).data;
-    for (let yy = 0; yy < c.height; yy += 2) for (let xx = 0; xx < c.width; xx += 2)
-      if (d[(yy * c.width + xx) * 4 + 3] > 120) pts.push([xx - c.width / 2 + rnd() * 2 - 1, yy - c.height / 2 + rnd() * 2 - 1]);
-    pts.sort((a, b) => a[0] - b[0]);
-    glyphs.set(key, pts);
-    return pts;
   }
 
   function step(f, snap) {
     let fig = figs[0], box = null, bd = 1e9;
     for (const el of figs) {
-      const r = el.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - H / 2);
+      const r = el.getBoundingClientRect(), d = (r.top <= H / 2 && r.bottom >= H / 2) ? 0 : Math.min(Math.abs(r.top - H / 2), Math.abs(r.bottom - H / 2));
       if (d < bd) { bd = d; fig = el; box = r; }
     }
     mode = fig.dataset.fig;
-    setRule(ruleAt());
+    setRun(runAt());
+    const openNow = runOpen();
+    lanesEl.classList.toggle('open', openNow);
+    eveCheck();
     const cx = box.left + box.width / 2, cy = box.top + box.height / 2;
-    let rocks = null, sess = null, pts = null, R = 0, bars = 1, bw = 0, ca = 1, sa = 0, cb = 1, sb = 0, held = 0;
+    let rocks = null, sess = null, R = 0, bars = 1, bw = 0, ca = 1, sa = 0, cb = 1, sb = 0, held = 0;
     if (mode === 'flow') {
       rocks = fig._rocks.map((e) => { const r = e.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2, r.width / 2 + 36, r.height / 2 + 26, e.classList.contains('session')]; });
       sess = rocks.find((r) => r[4]) || null;
     } else if (mode === 'orb') {
       R = Math.min(box.width, box.height) * 0.44;
       ca = Math.cos(t * 0.22); sa = Math.sin(t * 0.22); cb = Math.cos(0.38); sb = Math.sin(0.38);
-    } else if (mode === 'num') {
-      pts = glyph(String(ri + 1).padStart(2, '0'), box.width, box.height);
+    } else if (mode === 'threads') {
+      const tgt = openNow ? 1 : 0;
+      spread = snap ? tgt : spread + (tgt - spread) * Math.min(1, 0.12 * f);
     } else if (mode === 'wave') {
       bars = Math.max(18, Math.min(64, Math.round(box.width / 18))); bw = box.width / bars;
     }
@@ -390,7 +607,7 @@ h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;l
     for (let i = 0; i < N; i++) {
       const p = P[i];
       let tx = 0, ty = 0, shaped = false;
-      p.z = 1;
+      p.z = 1; p.g = 0; p.wrap = false;
       if (p.h) {
         if (!sess || !pending) {
           p.h = 0;
@@ -404,16 +621,27 @@ h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;l
       } else if (mode === 'orb' && i < NS) {
         const s = sphere[i], x1 = s[0] * ca + s[2] * sa, z1 = s[2] * ca - s[0] * sa, y2 = s[1] * cb - z1 * sb, z2 = s[1] * sb + z1 * cb;
         tx = cx + x1 * R; ty = cy + y2 * R; p.z = 0.25 + 0.75 * (z2 + 1) / 2; shaped = true;
-      } else if (mode === 'num' && i < NS && pts.length) {
-        const q = pts[(i * pts.length / NS) | 0];
-        tx = cx + q[0]; ty = cy + q[1]; shaped = true;
+      } else if (mode === 'threads' && i < NS) {
+        const k = i % 5, sp = 0.7 + 0.6 * ((p.s * 31) % 1);
+        let u = (p.s * 7.3 + t * 0.045 * sp) % 1, off = 0;
+        if (k) {
+          const u0 = 0.1 + k * 0.025, u1 = 0.86 - k * 0.02;
+          if (u > u0 && u < u1) {
+            if (gate && k === 1 && (u - u0) / (u1 - u0) > 0.74) { u = u0 + (u1 - u0) * (0.74 - ((p.s * 53) % 1) * 0.08); p.g = 1; }
+            off = TH[k - 1] * Math.sin(Math.PI * (u - u0) / (u1 - u0)) * spread;
+          }
+        }
+        p.wrap = p.u !== undefined && p.u - u > 0.5; p.u = u;
+        tx = box.left + box.width * (0.04 + 0.92 * u);
+        ty = cy + Math.sin(u * 7.54 + t * 0.4) * box.height * 0.04 + off * box.height * 0.5 + (((p.s * 13) % 1) - 0.5) * 4;
+        shaped = true;
       } else if (mode === 'wave' && i < NS) {
         const b = i % bars, u = ((p.s * 13) % 1) * 2 - 1;
         const amp = box.height / 2 * (0.12 + 0.88 * Math.abs(Math.sin(b * 0.37 + t * 1.4) * Math.cos(b * 0.11 - t * 0.8)));
         tx = box.left + (b + 0.5) * bw + (p.s - 0.5) * Math.min(4, bw * 0.25); ty = cy + u * amp; shaped = true;
       }
       if (shaped) {
-        if (snap) { p.x = tx; p.y = ty; p.vx = p.vy = 0; }
+        if (snap || p.wrap) { p.x = tx; p.y = ty; p.vx = p.vy = 0; }
         else { p.vx = (p.vx + (tx - p.x) * 0.05 * f) * damp; p.vy = (p.vy + (ty - p.y) * 0.05 * f) * damp; }
       } else if (!snap) {
         let fx = (mode === 'flow' ? 1 : 0.45) * (0.5 + p.s * 1.1);
@@ -447,9 +675,9 @@ h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;l
     const flow = mode === 'flow';
     for (let i = 0; i < N; i++) {
       const p = P[i], sh = p.sh;
-      const y = p.h || (p.lit && (flow || (mode === 'orb' && sh)));
-      const a = p.h ? 0.95 : y ? 0.9 * p.z : sh ? (0.36 + p.s * 0.5) * p.z : flow ? 0.14 + p.s * 0.36 : 0.07 + p.s * 0.14;
-      const r = p.h ? 1.9 : sh ? (0.8 + p.s * 0.9) * (0.55 + 0.45 * p.z) * (mode === 'orb' ? 1.4 : 1) : 0.7 + p.s * 0.8;
+      const y = p.h || p.g || (p.lit && (flow || ((mode === 'orb' || mode === 'threads') && sh)));
+      const a = (p.h || p.g) ? 0.95 : y ? 0.85 * p.z : sh ? (0.34 + p.s * 0.5) * p.z : flow ? 0.08 + p.s * 0.24 : 0.05 + p.s * 0.12;
+      const r = p.h ? 1.9 : p.g ? 1.6 : sh ? (0.8 + p.s * 0.9) * (0.55 + 0.45 * p.z) * (mode === 'orb' ? 1.4 : 1) : 0.7 + p.s * 0.8;
       g.fillStyle = g.strokeStyle = 'rgba(' + (y ? lit : ink) + ',' + a.toFixed(3) + ')';
       if (!sh && Math.abs(p.vx) + Math.abs(p.vy) > 0.5) {
         g.globalAlpha = 0.5; g.lineWidth = r; g.lineCap = 'round';
@@ -469,30 +697,29 @@ h1{font:300 clamp(44px,7.4vw,108px)/1.02 var(--serif);font-optical-sizing:auto;l
   function stop() { live = false; cancelAnimationFrame(raf); }
   const still = () => { if (!live) { step(1, true); draw(); } };
 
-  size();
+  size(); colors();
   addEventListener('resize', () => { size(); still(); });
   addEventListener('scroll', still, { passive: true });
   addEventListener('pointermove', (e) => { mx = e.clientX; my = e.clientY; }, { passive: true });
   addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') { mx = my = -9999; } }, { passive: true });
   document.addEventListener('pointerleave', () => { mx = my = -9999; });
   document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
-  if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { colors(); still(); labelTheme(); });
-  if (document.fonts && document.fonts.load) document.fonts.load('300 120px Newsreader').then(() => { glyphs.clear(); still(); }).catch(() => {});
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { colors(); labelTheme(); });
 
-  /* theme: follows the system until the icon is tapped, then keeps the choice */
   const themeBtn = $('#theme');
-  function isDark() { const c = root.getAttribute('data-theme'); return c ? c === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
+  function isDark() { const c = root.getAttribute('data-theme'); return c ? c === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; }
   function labelTheme() { themeBtn.setAttribute('aria-label', isDark() ? 'Switch to light' : 'Switch to dark'); }
   themeBtn.addEventListener('click', () => {
     const next = isDark() ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
-    labelTheme(); colors(); still();
+    labelTheme(); colors();
   });
   labelTheme();
-
   still();
   start();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { size(); still(); });
+  addEventListener('load', () => { size(); still(); });
 })();
 </script>
 </body>
