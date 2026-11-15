@@ -385,41 +385,35 @@ a.pill:hover{color:var(--ink)}
   <article class="note rv">
     <span class="num">04</span>
     <div>
-      <h3>Trust is a design problem.</h3>
-      <p class="open">It never gets more access than you, never sees your passwords, and asks only before the steps you can’t take back.</p>
+      <h3>Your agent should never have more access than you.</h3>
+      <p class="open">Agents built like superusers are the risk. Yours should inherit your reach, never widen it.</p>
       <details>
         <summary>Read the essay</summary>
         <div class="body">
-          <p>Most talk about agent security sounds like a firewall: what to block, what to sandbox, what to log. That matters. But the question a person actually asks is simpler. Can I hand this thing my work and stop watching it?</p>
-          <p>That’s a design question, and I think it decides whether anyone keeps using an agent.</p>
-          <p class="sh">Authority, not credentials</p>
-          <p>To do real work, an agent has to act as you: send the email, merge the change, book the room. The lazy way is to hand it your keys. The better way is to give it your authority and keep the keys.</p>
-          <p>It goes through doors you opened. It never holds the password. If it’s ever confused or compromised, what it carries is as small as it can be.</p>
-          <p>And it never gets more than you have. If you can’t open a repository, a channel or a file, neither can it. An agent should inherit your reach, never widen it.</p>
+          <p>The fastest way to make an agent useful is to make it powerful. Give it an admin token, a service account that reads every channel, a key to every repository, so it never hits a wall. A lot of agents are built that way. It works brilliantly, right up to the day it doesn’t.</p>
+          <p>I think the rule should be the opposite, and it fits in one sentence: your agent should never have more access than you.</p>
+          <p class="sh">The superuser problem</p>
+          <p>An agent with company-wide keys is the most powerful account in the building, and it takes instructions from anyone who can get words in front of it: a message, a page it reads, an email it opens. Give it more reach than the person asking, and you’ve built a way around every permission you already have.</p>
+          <p>And nobody sees it. The person using it thinks it acts as them. It doesn’t. It acts as something bigger.</p>
+          <p class="sh">Inherit your reach, never widen it</p>
+          <p>If you can’t open a repository, a channel or a file, neither can it. If your access goes away, its access goes with it. It acts with your authority and never holds your passwords, so if it’s ever confused or compromised, what it carries is small, and never bigger than you.</p>
+          <p>In a shared room the rule tightens: it knows only what everyone there could know. And it never acts as someone else without their yes.</p>
           <p class="sh">One set of doors, in one place</p>
-          <p>Every tool an agent touches is its own door: its own sign-in, its own permissions, its own log. Wire each one up differently and nobody can answer the simplest question: what can it actually do, and as whom?</p>
-          <p>So access should work the same way across everything. Every connection goes through one place, under the same rules, and you can see all of it at a glance: what’s connected, as whom, and what it can reach. Easy to manage is part of secure. A permission nobody can see is one nobody will ever take back.</p>
+          <p>“Never more than you” only holds if you can check it. When every tool is wired up differently, with its own sign-in and its own permissions, nobody can answer the simplest question: what can it actually do, and as whom?</p>
+          <p>So every connection goes through one place, under the same rules, and you can see what’s connected, as whom, and what it can reach. A permission nobody can see is one nobody will ever take back.</p>
           <p class="sh">Build on the security you already have</p>
-          <p>A company already decides who gets in: its sign-in, its access rules, the systems its security team watches. An agent shouldn’t build a second world beside that. It should plug into the one that’s there, so the same rules, the same reviews and the same alarms cover it too.</p>
+          <p>A company already decides who gets in: its sign-in, its access rules, the systems its security team watches. An agent shouldn’t build a second world beside that. It should plug into the one that’s there, so the same rules, reviews and alarms cover it too.</p>
           <p>The safest agent isn’t the one with the cleverest sandbox. It’s the one your security team already knows how to watch.</p>
           <p class="sh">Ask less, so it means more</p>
-          <p>The usual answer to risk is a confirm box on everything. That’s security theatre. By the tenth “Allow?” people stop reading and tap yes, and the one that mattered goes by with the rest.</p>
-          <p>So it should ask rarely and plainly: before money moves, before a message leaves for someone outside, before anything you can’t take back. Everything else runs. And when it does ask, the question fits on a watch. What, for whom, how much. Yes or no.</p>
-          <p class="sh">Say what you checked</p>
-          <p>Trust isn’t only about what an agent is allowed to do. It’s whether you can believe what it tells you. Done should mean done. Merged isn’t live, sent isn’t delivered, and a list that was cut short has to say so.</p>
-          <p>The agents I trust say what they checked and what they didn’t, up front, without being asked. One that admits a gap is worth more than one that always sounds sure.</p>
-          <p class="sh">The room decides what it knows</p>
-          <p>One agent across a whole company hears a lot. So what it can use should depend on where it’s asked, not only on who’s asking. In a shared channel, it should know only what everyone there could know.</p>
-          <p>And it never acts as someone else without their yes. Setting something up for a colleague starts with asking the colleague.</p>
+          <p>An agent that can’t do more than you doesn’t need to ask about everything. A confirm box on every step is security theatre: by the tenth “Allow?” people tap yes without reading. So it asks rarely and plainly, before money moves, before a message leaves for someone outside, before anything you can’t take back. The question fits on a watch.</p>
           <p class="sh">What it looked like this week</p>
-          <p>When it built my site and set up my mailbox, it came back to me for a handful of things: signing in where only I could, a choice between two mail plans, and a yes before it spent money. Everything else just happened.</p>
-          <p>Then I asked why it had recommended the pricier mail provider. It told me straight: it had picked that default before reading the prices, and its own recommendation had steered my choice. Then it switched. That admission did more for my trust than any of the work.</p>
+          <p>When it built my site, it hit the walls I would have hit. GitHub wanted me signed in. So did the domain registrar. The mailbox needed my yes before money moved. It didn’t route around any of them. It had no keys of its own, so it came back to me, and I signed in on its screen.</p>
+          <p>That cost me a minute. It’s also the whole point.</p>
           <p class="sh">The tradeoff</p>
-          <p>Every question an agent doesn’t ask is a bet that it judged the stakes right. Wrong one way, you’re back to tapping yes all day. Wrong the other way, something you can’t undo happens without you.</p>
-          <p>No setting makes that go away. It’s judgement, earned and adjusted over time, the way it is with a person you work with.</p>
+          <p>An agent that can only do what you can will sometimes stop where a superuser would sail through. It waits for a sign-in, or tells you it can’t reach something. That’s friction, and it’s the right kind. Every wall it hits is a permission working.</p>
           <p class="sh">What’s still hard</p>
-          <p>Knowing, reliably, which steps can be undone. Making an approval clear enough to answer from a watch without opening anything. Sign-ins that don’t reach a screen in the cloud. And making trust as easy to take back as it was to give.</p>
-          <p><b>Trust isn’t a feature you add at the end. It’s what the whole thing is designed around.</b></p>
+          <p>Sign-ins that don’t reach a screen in the cloud. Knowing, reliably, which steps can be undone. And making access as easy to take back as it was to give.</p>
+          <p><b>Never more than you. Everything else follows from that.</b></p>
         </div>
         <p class="stamp"><span class="sig">Chris</span><a href="https://x.com/chrisstarrai" target="_blank" rel="noopener">Discuss on X ↗</a></p>
       </details>
