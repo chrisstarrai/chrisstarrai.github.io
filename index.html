@@ -30,7 +30,7 @@
 :root{
   --bg:#F7F6F3;--ink:#111214;--text:#2E3035;--muted:#6B6E76;--faint:#9C9EA4;
   --line:rgba(17,18,20,.11);--card:#FFFFFF;--on-ink:#F7F6F3;
-  --aub:#5B2B5E;--ember:#C4492C;
+  --aub:#5B2B5E;--ember:#C4492C;--t2:#1F6F6B;--t3:#2F4F9E;--t4:#3F7A3A;
   --lift:0 1px 2px rgba(17,18,20,.05),0 10px 30px rgba(17,18,20,.07);
   --dot:17,18,20;--lit:196,73,44;
   --serif:"Fraunces",Georgia,serif;
@@ -41,12 +41,12 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0C0C0D;--ink:#F2F1EE;--text:#D3D3D6;--muted:#9B9CA2;--faint:#6D6E74;
   --line:rgba(242,241,238,.11);--card:#17171A;--on-ink:#0C0C0D;--aub:#C9A0CC;
-  --lift:0 0 0 1px rgba(242,241,238,.06),0 14px 36px rgba(0,0,0,.5);--dot:242,241,238;
+  --lift:0 0 0 1px rgba(242,241,238,.06),0 14px 36px rgba(0,0,0,.5);--dot:242,241,238;--t2:#7CC7C1;--t3:#9DB4F0;--t4:#A9CF86;
 }}
 :root[data-theme="dark"]{
   --bg:#0C0C0D;--ink:#F2F1EE;--text:#D3D3D6;--muted:#9B9CA2;--faint:#6D6E74;
   --line:rgba(242,241,238,.11);--card:#17171A;--on-ink:#0C0C0D;--aub:#C9A0CC;
-  --lift:0 0 0 1px rgba(242,241,238,.06),0 14px 36px rgba(0,0,0,.5);--dot:242,241,238;color-scheme:dark;
+  --lift:0 0 0 1px rgba(242,241,238,.06),0 14px 36px rgba(0,0,0,.5);--dot:242,241,238;--t2:#7CC7C1;--t3:#9DB4F0;--t4:#A9CF86;color-scheme:dark;
 }
 /* evening: the page turns aubergine at the podcast */
 :root.eve{--bg:#3B1A3E;--ink:#F5EFE4;--text:#eadcea;--muted:#c4abc6;--faint:#9a7f9c;--line:rgba(245,239,228,.16);--card:#4a2450;--on-ink:#3B1A3E;--aub:#F0D9F1;--dot:245,239,228}
@@ -118,9 +118,16 @@ h1 em{font-style:italic;font-weight:300;color:var(--aub)}
 .pin{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,80px);padding:88px var(--pad) 132px}
 .pin .fig{height:min(60vh,560px)}
 .lanes{position:relative}
-.lane{position:absolute;left:50%;transform:translate(-50%,-50%);padding:4px 10px;border-radius:999px;background:var(--bg);color:var(--muted);font:400 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .3s var(--ease)}
-.lanes.open .lane{opacity:1}
-.lane.wait{color:var(--ember)}
+/* team labels: coloured dots that ride their thread and open into words as it splits */
+.lanes{--o:0}
+.lane{position:absolute;left:0;top:0;display:grid;place-items:center;opacity:0;transition:opacity .4s var(--ease);pointer-events:none;will-change:transform;--c:var(--aub)}
+.lanes.live .lane{opacity:1}
+.lane.you{--c:var(--ink)}
+.lane[data-k="2"]{--c:var(--t2)}.lane[data-k="3"]{--c:var(--t3)}.lane[data-k="4"]{--c:var(--t4)}
+.lane.wait{--c:var(--ember)}
+.lane i,.lane b{grid-area:1/1}
+.lane i{width:7px;height:7px;border-radius:50%;background:var(--c);opacity:calc(1 - var(--o));transform:scale(calc(1 + var(--o) * 1.5))}
+.lane b{padding:3px 8px;border-radius:999px;background:var(--bg);color:var(--c);font:400 9.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;opacity:var(--o);transform:scale(calc(.4 + var(--o) * .6));transition:background .7s var(--ease),color .4s var(--ease)}
 .runcard{background:var(--card);border-radius:14px;box-shadow:var(--lift);padding:clamp(22px,2.8vw,36px)}
 .runcard h3{font:360 clamp(26px,3vw,42px)/1.06 var(--serif);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.025em;color:var(--ink);margin:14px 0 clamp(14px,2.4vh,24px)}
 .log{list-style:none;display:grid;gap:2px;border-top:1px solid var(--line);padding-top:10px}
@@ -202,7 +209,8 @@ a.pill:hover{color:var(--ink)}
   .portrait{width:min(52%,210px)}
   .pin{grid-template-columns:1fr;grid-template-rows:auto auto;align-content:center;gap:12px;padding:64px var(--pad) 120px}
   .pin .fig{height:22vh;min-height:120px}
-  .lane{display:none}
+  .lane i{width:6px;height:6px}
+  .lane b{padding:2px 6px;font-size:8.5px;letter-spacing:.08em}
   .runcard{padding:18px 18px 16px}
   .runcard h3{font-size:24px;margin:10px 0 12px}
   .ev{grid-template-columns:52px 8px minmax(0,1fr);gap:8px;padding:3px 0;font-size:13.5px}
@@ -244,7 +252,7 @@ a.pill:hover{color:var(--ink)}
 <section class="rules" id="run">
   <div class="pin">
     <div class="fig lanes" id="lanes" data-fig="threads" role="img" aria-label="One thread splits into four teams, works in parallel, waits for a person's yes, and comes back as one.">
-      <span class="lane wait" style="top:19%">Hiring</span><span class="lane" style="top:35%">Deals</span><span class="lane" style="top:65%">Onboarding</span><span class="lane" style="top:81%">Engineering</span>
+      <span class="lane" data-k="1"><i></i><b>Hiring</b></span><span class="lane" data-k="2"><i></i><b>Deals</b></span><span class="lane you" data-k="0"><i></i><b>You</b></span><span class="lane" data-k="3"><i></i><b>Onboarding</b></span><span class="lane" data-k="4"><i></i><b>Engineering</b></span>
     </div>
     <div class="runcard">
       <p class="label">The company, running</p>
@@ -379,6 +387,7 @@ a.pill:hover{color:var(--ink)}
           <p>The best thing anyone has said to me about it: a colleague called it the best tool they’ve ever used at work. That’s the compliment I care about most. It isn’t about a feature. It’s about how the thing feels to use.</p>
           <p class="sh">The tradeoff</p>
           <p>Hiding the machinery is easy to overdo. If you can’t see what an agent is doing, you can’t stop it when it’s wrong. So the rule I hold to: hide the machinery, never the decisions. Anything you can’t take back still comes to you, plainly, with a yes or a no.</p>
+          <p>And it asks rarely, so the question means something. A confirm box on every step is security theatre: by the tenth “Allow?” people tap yes without reading. The ones that matter should fit on a watch.</p>
           <p class="sh">What’s still hard</p>
           <p>Knowing when to speak up and when to stay quiet. Making a default good enough that you never wonder about it, and obvious enough when it’s wrong that you notice. Voice that keeps up in a loud room. Each of those is a place where the interface comes back into view, and the work is making it disappear again.</p>
           <p><b>The less you notice it, the better it’s working.</b></p>
@@ -387,44 +396,7 @@ a.pill:hover{color:var(--ink)}
       </details>
     </div>
   </article>
-  <article class="note rv">
-    <span class="num">04</span>
-    <div>
-      <h3>Your agent should never have more access than you.</h3>
-      <p class="open">Agents built like superusers are the risk. Yours should inherit your reach, never widen it.</p>
-      <details>
-        <summary>Read the essay</summary>
-        <div class="body">
-          <p>The fastest way to make an agent useful is to make it powerful. Give it an admin token, a service account that reads every channel, a key to every repository, so it never hits a wall. A lot of agents are built that way. It works brilliantly, right up to the day it doesn’t.</p>
-          <p>I think the rule should be the opposite, and it fits in one sentence: your agent should never have more access than you.</p>
-          <p class="sh">The superuser problem</p>
-          <p>An agent with company-wide keys is the most powerful account in the building, and it takes instructions from anyone who can get words in front of it: a message, a page it reads, an email it opens. Give it more reach than the person asking, and you’ve built a way around every permission you already have.</p>
-          <p>And nobody sees it. The person using it thinks it acts as them. It doesn’t. It acts as something bigger.</p>
-          <p class="sh">Inherit your reach, never widen it</p>
-          <p>If you can’t open a repository, a channel or a file, neither can it. If your access goes away, its access goes with it. It acts with your authority and never holds your passwords, so if it’s ever confused or compromised, what it carries is small, and never bigger than you.</p>
-          <p>In a shared room the rule tightens: it knows only what everyone there could know. And it never acts as someone else without their yes.</p>
-          <p class="sh">One set of doors, in one place</p>
-          <p>“Never more than you” only holds if you can check it. When every tool is wired up differently, with its own sign-in and its own permissions, nobody can answer the simplest question: what can it actually do, and as whom?</p>
-          <p>So every connection goes through one place, under the same rules, and you can see what’s connected, as whom, and what it can reach. A permission nobody can see is one nobody will ever take back.</p>
-          <p class="sh">Build on the security you already have</p>
-          <p>A company already decides who gets in: its sign-in, its access rules, the systems its security team watches. An agent shouldn’t build a second world beside that. It should plug into the one that’s there, so the same rules, reviews and alarms cover it too.</p>
-          <p>The safest agent isn’t the one with the cleverest sandbox. It’s the one your security team already knows how to watch.</p>
-          <p class="sh">Ask less, so it means more</p>
-          <p>An agent that can’t do more than you doesn’t need to ask about everything. A confirm box on every step is security theatre: by the tenth “Allow?” people tap yes without reading. So it asks rarely and plainly, before money moves, before a message leaves for someone outside, before anything you can’t take back. The question fits on a watch.</p>
-          <p class="sh">What it looked like this week</p>
-          <p>When it built my site, it hit the walls I would have hit. GitHub wanted me signed in. So did the domain registrar. The mailbox needed my yes before money moved. It didn’t route around any of them. It had no keys of its own, so it came back to me, and I signed in on its screen.</p>
-          <p>That cost me a minute. It’s also the whole point.</p>
-          <p class="sh">The tradeoff</p>
-          <p>An agent that can only do what you can will sometimes stop where a superuser would sail through. It waits for a sign-in, or tells you it can’t reach something. That’s friction, and it’s the right kind. Every wall it hits is a permission working.</p>
-          <p class="sh">What’s still hard</p>
-          <p>Sign-ins that don’t reach a screen in the cloud. Knowing, reliably, which steps can be undone. And making access as easy to take back as it was to give.</p>
-          <p><b>Never more than you. Everything else follows from that.</b></p>
-        </div>
-        <p class="stamp"><span class="sig">Chris</span><a href="https://x.com/chrisstarrai" target="_blank" rel="noopener">Discuss on X ↗</a></p>
-      </details>
-    </div>
-  </article>
-</section>
+  </section>
 
 <section class="bay" id="bay" data-fig="calm">
   <p class="label rv">Out in the Bay · this fall</p>
@@ -528,6 +500,25 @@ a.pill:hover{color:var(--ink)}
   /* the company running */
   const runEl = $('#run'), evs = $$('.ev'), lanesEl = $('#lanes'), TH = [-0.62, -0.3, 0.3, 0.62];
   let ri = -1, spread = 0, gate = false;
+  /* each label rides its thread on the same spring as the points, so it never drifts off it */
+  const laneEls = $$('.lane', lanesEl), LP = laneEls.map(() => ({ x: 0, y: 0, vx: 0, vy: 0, init: false }));
+  function placeLanes(f, snap, damp) {
+    const lb = lanesEl.getBoundingClientRect();
+    const e = spread * spread * (3 - 2 * spread);
+    let o = Math.max(0, Math.min(1, (spread - 0.3) / 0.55)); o = o * o * (3 - 2 * o);
+    lanesEl.style.setProperty('--o', o.toFixed(3));
+    laneEls[0].classList.toggle('wait', gate);
+    laneEls.forEach((el, j) => {
+      const k = +el.dataset.k, fx = 0.5 + (j - 2) * 0.13 * (1 - e), u = (fx - 0.04) / 0.92;
+      let off = 0;
+      if (k) { const u0 = 0.1 + k * 0.025, u1 = 0.86 - k * 0.02; if (u > u0 && u < u1) off = TH[k - 1] * Math.sin(Math.PI * (u - u0) / (u1 - u0)) * spread; }
+      const tx = lb.left + lb.width * fx, ty = lb.top + lb.height / 2 + Math.sin(u * 7.54 + t * 0.4) * lb.height * 0.04 + off * lb.height * 0.5;
+      const q = LP[j];
+      if (snap || !q.init) { q.x = tx; q.y = ty; q.vx = q.vy = 0; q.init = true; }
+      else { q.vx = (q.vx + (tx - q.x) * 0.05 * f) * damp; q.vy = (q.vy + (ty - q.y) * 0.05 * f) * damp; q.x += q.vx * f; q.y += q.vy * f; }
+      el.style.transform = 'translate(' + (q.x - lb.left).toFixed(1) + 'px,' + (q.y - lb.top).toFixed(1) + 'px) translate(-50%,-50%)';
+    });
+  }
   function runAt() {
     const r = runEl.getBoundingClientRect();
     const p = -r.top / Math.max(1, r.height - innerHeight);
@@ -585,7 +576,7 @@ a.pill:hover{color:var(--ink)}
     mode = fig.dataset.fig;
     setRun(runAt());
     const openNow = runOpen();
-    lanesEl.classList.toggle('open', openNow);
+    lanesEl.classList.toggle('live', mode === 'threads');
     eveCheck();
     const cx = box.left + box.width / 2, cy = box.top + box.height / 2;
     let rocks = null, sess = null, R = 0, bars = 1, bw = 0, ca = 1, sa = 0, cb = 1, sb = 0, held = 0;
@@ -602,6 +593,7 @@ a.pill:hover{color:var(--ink)}
       bars = Math.max(18, Math.min(64, Math.round(box.width / 18))); bw = box.width / bars;
     }
     const HMAX = W < 600 ? 26 : 54, damp = Math.pow(0.82, f);
+    placeLanes(f, snap, damp);
     if (sess) for (let i = 0; i < N; i++) held += P[i].h;
     for (let i = 0; i < N; i++) {
       const p = P[i];
